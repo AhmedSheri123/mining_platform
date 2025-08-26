@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-y%jdr#j(&g-i(vfgt=0$2ey1ff4$ycf-1m7!-(n*f$j4x-p31(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['softmsg.com', 'www.softmsg.com']
 
 
 # Application definition
