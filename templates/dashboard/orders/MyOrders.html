@@ -1,0 +1,56 @@
+{% extends "dashboard_base.html" %}
+
+{% block sheri %}
+<div class="bg-primary p-3">
+  <a href="{% url 'AddService' %}" class="btn btn-light">Add Service</a>
+</div>
+
+
+
+<div class="container p-4 ">
+    <h5>My Order List</h5>
+    
+    <div class="tabel-box">
+
+      <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ID</th>
+              <th scope="col">Project name</th>
+              <th scope="col">Service</th>
+              <th scope="col">Service progress</th>
+              <th scope="col">Status</th>
+              <th scope="col">Subscription</th>
+              <th scope="col">Scope</th>
+              <th scope="col">Option</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+            <tr>
+              <th scope="row">1</th>
+              <td>{{order.orderID}}</td>
+              <td>{{order.user_service.project_name}}</td>
+              <td>{{order.user_service.service.title}}</td>
+              <td><span class="bg-primary px-2 py-1 rounded text-nowrap">{{order.user_service.get_progress_display}}</span></td>
+              <td><span class="bg-primary px-2 py-1 rounded">{{order.get_progress_display}}</span></td>
+              <td>{{order.title}}</td>
+              <td><span class="bg-primary px-2 py-1 rounded">{{order.get_progress_paid_plan_scope_display}}</span></td>
+              <td>
+                {% if order.progress == '1' %}
+                <a href="{% url 'ServicePayment' order.orderID %}" class="btn btn-success">Continue</a>
+                {% elif order.progress == '2' %}
+                <a href="{% url 'UpgradeOrRenewServiceSubscription' order.orderID %}" class="btn btn-success">Use</a>
+                {% endif %}
+                <a href="{% url 'DeleteOrder' order.orderID %}" class="btn btn-danger">Delete</a>
+              </td>
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+</div>
+
+{% endblock sheri %}

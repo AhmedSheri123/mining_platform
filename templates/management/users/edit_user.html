@@ -1,0 +1,88 @@
+{% extends "management_base.html" %}
+{% load static %}
+{% block sheri %}
+
+<div class="container py-4">
+
+    <h3 class="mb-4 text-center">تعديل بيانات المستخدم: {{ user_obj.username }}</h3>
+
+    <form method="post" class="row g-4">
+        {% csrf_token %}
+
+        <!-- بيانات المستخدم الأساسية -->
+        <div class="col-12">
+            <div class="card shadow-sm rounded-4 p-3">
+                <h5 class="mb-3">بيانات المستخدم</h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">الاسم الأول</label>
+                        {{ user_form.first_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">الاسم الأخير</label>
+                        {{ user_form.last_name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">البريد الإلكتروني</label>
+                        {{ user_form.email }}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">نشط</label>
+                        {{ user_form.is_active }}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">أدمن</label>
+                        {{ user_form.is_staff }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ملف المستخدم -->
+        <div class="col-12">
+            <div class="card shadow-sm rounded-4 p-3">
+                <h5 class="mb-3">ملف المستخدم</h5>
+                <div class="row g-3">
+
+                    <div class="col-md-4 text-center">
+                        <label class="form-label d-block mb-2">الصورة الحالية</label>
+                        {% if profile_form.instance.img_base64 %}
+                            <img src="{{ profile_form.instance.img_base64 }}" alt="Profile" class="img-fluid rounded-circle border" style="max-height: 200px;">
+                        {% else %}
+                            <img src="{% static 'img/profile_default/default-profile-img-2.png' %}" alt="Profile" class="img-fluid rounded-circle border" style="max-height: 200px;">
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label class="form-label">الرصيد</label>
+                            {{ profile_form.balance }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">إجمالي الأرباح</label>
+                            {{ profile_form.total_earned }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">كود الدعوة</label>
+                            {{ profile_form.invite_code }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الصورة (Base64)</label>
+                            {{ profile_form.img_base64 }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- أزرار الحفظ -->
+        <div class="col-12 text-center mt-3">
+            <button class="btn btn-success px-5">حفظ التغييرات</button>
+            <a href="{% url 'user_detail' user_obj.id %}" class="btn btn-secondary px-5">إلغاء</a>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock sheri %}

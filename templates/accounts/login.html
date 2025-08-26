@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block sheri %}
+
+<!-- نموذج تسجيل الدخول -->
+<div class="px-3 my-5">
+    <div class="container py-3 border rounded shadow-lg" style="max-width: 568px;">
+        <form class="p-4 p-sm-5" method="post">
+            {% csrf_token %}
+            <div class="text-center">
+                <img width="130" src="{% static 'img/softmsg-logo.webp' %}" alt="شعار المنصة" class="mb-2">
+                <h3 class="mb-3 text-dark">{% trans "تسجيل الدخول إلى حسابك" %}</h3>
+            </div>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">
+                    <i class="fa-solid fa-user"></i>
+                    {% trans "اسم المستخدم" %}
+                </label>
+                {{ form.username }}
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">
+                    <i class="fa-solid fa-lock"></i>
+                    {% trans "كلمة المرور" %}
+                </label>
+                {{ form.password }}
+            </div>
+
+            <button class="btn btn-dark mx-auto d-block mb-3">
+                {% trans "تسجيل الدخول" %}
+                <i class="fa-solid fa-right-to-bracket"></i>
+            </button>
+
+            <!-- زر الانتقال إلى صفحة إنشاء حساب -->
+            <a href="{% url 'Signup' %}" class="btn btn-outline-primary mx-auto d-block">
+               {% trans "لا تملك حسابًا؟ أنشئ حساب جديد" %}
+            </a>
+        </form>
+    </div>
+</div>
+<!-- نهاية نموذج تسجيل الدخول -->
+
+{% endblock sheri %}

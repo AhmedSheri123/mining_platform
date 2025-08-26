@@ -1,0 +1,49 @@
+{% extends "dashboard_base.html" %}
+
+{% block sheri %}
+
+<div class="container p-4">
+
+    <!-- عنوان الجهاز -->
+    <div class="mb-4">
+        <h2>{{ my_device.device.name }}</h2>
+        <p>{{ my_device.device.desc }}</p>
+    </div>
+
+    <!-- صورة الجهاز -->
+    {% if my_device.device.image %}
+    <div class="mb-4 text-center">
+        <img src="{{ my_device.device.image.url }}" class="img-fluid rounded" alt="{{ my_device.device.name }}" style="max-height:300px;">
+    </div>
+    {% endif %}
+
+    <!-- المعلومات الأساسية للجهاز -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item"><strong>السعر:</strong> {{ my_device.device.price|floatformat:2 }} USDT</li>
+                <li class="list-group-item"><strong>عمر الجهاز:</strong> {{ my_device.device.age }} أيام</li>
+                <li class="list-group-item"><strong>الطاقة المستهلكة:</strong> {{ my_device.device.wattage }} W</li>
+                <li class="list-group-item"><strong>Hashrate:</strong> {{ my_device.device.hashrate_from }} - {{ my_device.device.hashrate_to }} MH/s</li>
+                <li class="list-group-item"><strong>ربح يومي:</strong> {{ my_device.device.daily_profit_from|floatformat:2 }} - {{ my_device.device.daily_profit_to|floatformat:2 }} USDT</li>
+                <li class="list-group-item"><strong>درجة الحرارة:</strong> {{ my_device.device.temperature_from }} - {{ my_device.device.temperature_to }} °C</li>
+            </ul>
+        </div>
+
+        <!-- معلومات جهاز المستخدم -->
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item"><strong>المالك:</strong> {{ my_device.owner.username }}</li>
+                <li class="list-group-item"><strong>الحالة:</strong> {{ my_device.get_status_display }}</li>
+                <li class="list-group-item"><strong>Hashrate الحالي:</strong> {{ my_device.hashrate }} MH/s</li>
+                <li class="list-group-item"><strong>درجة الحرارة الحالية:</strong> {{ my_device.temperature }} °C</li>
+                <li class="list-group-item"><strong>الأرباح الحالية:</strong> {{ my_device.earnings|floatformat:6 }} USDT</li>
+                <li class="list-group-item"><strong>مدة التشغيل:</strong> {% if my_device.uptime %}{{ my_device.uptime }}{% else %}-{% endif %}</li>
+                <li class="list-group-item"><strong>تاريخ الإضافة:</strong> {{ my_device.created_at|date:"Y-m-d H:i" }}</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+{% endblock sheri %}

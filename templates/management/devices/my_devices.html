@@ -1,0 +1,116 @@
+{% extends "management_base.html" %}
+{% load i18n %}
+{% block sheri %}
+<div class="bg-primary p-3">
+    <a href="{% url 'devices' %}" class="btn btn-light">شراء جهاز</a>
+</div>
+
+<div class="container p-4 ">
+    <h5>أجهزتي</h5>
+  <div class="tabel-box">
+    <table class="table">
+      <thead>
+        <tr>
+        <th>#</th>
+        <th>{% trans "معرّف الجهاز" %}</th>
+        <th>{% trans "قوة الهاش" %}</th>
+        <th>{% trans "درجة الحرارة" %}</th>
+        <th>{% trans "الحالة" %}</th>
+        <th>{% trans "الأرباح" %}</th>
+        <th>{% trans "الإجراءات" %}</th>
+        </tr>
+      </thead>
+      <tbody id="devices-table-body">
+  {% for device in devices %}
+  <tr id="device-{{ device.id }}">
+     <td>{{ forloop.counter }}</td>
+     <td>{{ device.device_id }}</td>
+     <td class="hashrate">{{ device.hashrate }} MH/s</td>
+     <td class="temperature">{{ device.temperature }} °C</td>
+     <td class="status">
+       {% if device.status == "running" %}
+         <span class="badge bg-success">يعمل</span>
+       {% elif device.status == "stopped" %}
+         <span class="badge bg-danger">متوقف</span>
+       {% else %}
+         <span class="badge bg-warning">صيانة</span>
+       {% endif %}
+     </td>
+     <td class="earnings">{{ device.earnings }} USDT</td>
+     <td>
+       <a href="{% url 'device_detail' device.id %}" class="btn btn-sm btn-primary">عرض</a>
+       <a class="btn btn-sm btn-danger" data-bs-toggle="modal" onclick="deleteItem('/usesss')" data-bs-target="#exampleModal">حذف</a>
+     </td>
+  </tr>
+  {% endfor %}
+</tbody>
+
+    </table>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content rounded-3 shadow">
+      <div class="modal-body p-4 text-center">
+        <h5 class="mb-0">هل تريد حذف هذه الخدمة؟</h5>
+        <p class="mb-0">بعد الحذف لا يمكنك استعادتها مرة أخرى.</p>
+      </div>
+      <div class="modal-footer flex-nowrap p-0">
+        <a type="button" id="yesDelete" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong>نعم، احذف</strong></a>
+        <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">لا، شكراً</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Modal  -->
+
+<script>
+  function deleteItem(id){
+    document.querySelector('#yesDelete').href = id
+  }
+</script>
+
+
+
+<script>
+function updateDeviceRow(row, data) {
+    row.querySelector(".hashrate").textContent = data.hashrate + " MH/s";
+    row.querySelector(".temperature").textContent = data.temperature + " °C";
+    row.querySelector(".earnings").textContent = data.earnings + " USDT";
+
+    const statusEl = row.querySelector(".status span");
+    if(data.status == "running") {
+        statusEl.textContent = "يعمل";
+        statusEl.className = "badge bg-success";
+    } else if(data.status == "stopped") {
+        statusEl.textContent = "متوقف";
+        statusEl.className = "badge bg-danger";
+    } else {
+        statusEl.textContent = "صيانة";
+        statusEl.className = "badge bg-warning";
+    }
+}
+
+function fetchDeviceUpdatesSequential() {
+    fetch("{% url 'devices_status' %}")
+    .then(response => response.json())
+    .then(data => {
+        data.devices.forEach((d, index) => {
+            setTimeout(() => {
+                const row = document.querySelector(`#device-${d.id}`);
+                if(row){
+                    updateDeviceRow(row, d);
+                }
+            }, index * 500); // 500ms بين كل جهاز
+        });
+    });
+}
+
+// تحديث كل 5 ثواني
+setInterval(fetchDeviceUpdatesSequential, 5000);
+</script>
+
+{% endblock sheri %}

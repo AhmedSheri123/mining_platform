@@ -1,0 +1,159 @@
+{% extends "dashboard_base.html" %}
+
+{% block sheri %}
+
+<div class="container p-4">
+    <div class="alert alert-warning" role="alert">
+    أهلاً {{ request.user.username }} 👋، هاي لمحة سريعة عن استثمارك اليوم
+    </div>
+
+    <h5>نظرة عامة</h5>
+    <div class="py-3 row row-cols-2 justify-content-center justify-content-md-between">
+
+        <div class="col card rounded-4 bg-primary me-2 p-2 mt-2 text-white" style="width: 15rem;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">إجمالي الأجهزة</h6>
+                <h2 class="mt-4">
+                    <i class="bi bi-hdd-stack-fill"></i>
+                    {{my_devices.count}} جهاز
+                </h2>
+                اخر تحديث <strong>الان</strong>
+            </div>
+        </div>
+        <div class="col card rounded-4 bg-success me-2 p-2 mt-2" style="width: 15rem;">
+            <div class="card-body text-white">
+                <h6 class="card-subtitle mb-2 ">الأرباح اليومية</h6>
+                <h2 class="mt-4 ">
+                    <i class="bi bi-cart-check-fill"></i>
+                    {{daily_earning|floatformat:2}} $
+                </h2>
+                اخر تحديث <strong>الان</strong>
+                {% comment %} last order <strong>3 days ago</strong> {% endcomment %}
+            </div>
+        </div>
+        <div class="col card rounded-4 bg-success-subtle me-2 p-2 mt-2" style="width: 15rem;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-body-secondary">الأرباح الشهرية</h6>
+                <h2 class="mt-4">
+                    <i class="bi bi-stop-fill text-body-secondary"></i>
+                    {{monthly_earning|floatformat:2}} $
+                </h2>
+                اخر تحديث <strong>الان</strong>
+            </div>
+        </div>
+
+
+        <div class="col card rounded-4 bg-dark me-2 p-2 mt-2" style="width: 15rem;">
+            <div class="card-body text-white">
+                <h6 class="card-subtitle mb-2 ">حالة الاجهزة</h6>
+                <h2 class="mt-4">
+                    {% comment %} <i class="bi bi-stop-fill"></i> {% endcomment %}
+                    شغال {{only_runing_devices.count}} ✅ 
+                </h2>
+                اخر تحديث <strong>الان</strong>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+
+<!-- قسم الدعوة -->
+{% if user.is_authenticated %}
+<div class="container py-5 text-center">
+  <h2 class="mb-4">كود الدعوة الخاص بك</h2>
+  <div class="bg-light p-4 rounded shadow-sm">
+    <h3 class="text-primary" id="inviteCode">{{ user.profile.invite_code }}</h3>
+    <p>انسخ الكود وشاركه مع أصدقائك لتحصل على مكافآت عند انضمامهم.</p>
+    <button onclick="copyCode()" class="btn btn-outline-primary mt-2">
+      <i class="fa-solid fa-copy"></i> نسخ الكود
+    </button>
+  </div>
+</div>
+<script>
+function copyCode() {
+  var code = document.getElementById("inviteCode").innerText;
+  navigator.clipboard.writeText(code);
+  alert("تم نسخ الكود بنجاح!");
+}
+</script>
+{% endif %}
+<!-- نهاية الدعوة -->
+
+<canvas id="earningsChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('earningsChart').getContext('2d');
+const labels = [{% for record in monthly_records %}'{{ record.date }}',{% endfor %}];
+const data = [{% for record in monthly_records %}{{ record.earned|floatformat:2 }},{% endfor %}];
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'الأرباح اليومية',
+            data: data,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            fill: false,
+        }]
+    },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+</script>
+
+
+{% comment %} <div class="container p-4 ">
+    <h5>Last Orders</h5>
+
+    <div class="tabel-box">
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ID</th>
+                <th scope="col">Project name</th>
+                <th scope="col">Service</th>
+                <th scope="col">Service progress</th>
+                <th scope="col">Status</th>
+                <th scope="col">Subscription</th>
+                <th scope="col">Scope</th>
+                <th scope="col">Option</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders|slice:4 %}
+              <tr>
+                <th scope="row">1</th>
+                <td>{{order.orderID}}</td>
+                <td>{{order.user_service.project_name}}</td>
+                <td>{{order.user_service.service.title}}</td>
+                <td><span class="bg-primary px-2 py-1 rounded text-nowrap">{{order.user_service.get_progress_display}}</span></td>
+                <td><span class="bg-primary px-2 py-1 rounded">{{order.get_progress_display}}</span></td>
+                <td>{{order.title}}</td>
+                <td><span class="bg-primary px-2 py-1 rounded">{{order.get_progress_paid_plan_scope_display}}</span></td>
+                <td>
+                  {% if order.progress == '1' %}
+                  <a href="{% url 'ServicePayment' order.orderID %}" class="btn btn-success">Continue</a>
+                  {% elif order.progress == '2' %}
+                  <a href="{% url 'UpgradeOrRenewServiceSubscription' order.orderID %}" class="btn btn-success">Use</a>
+                  {% endif %}
+                  <a href="{% url 'DeleteOrder' order.orderID %}" class="btn btn-danger">Delete</a>
+                </td>
+              </tr>
+              {% endfor %}
+  
+            </tbody>
+          </table>
+        </div>
+</div> {% endcomment %}
+
+
+{% endblock sheri %}
