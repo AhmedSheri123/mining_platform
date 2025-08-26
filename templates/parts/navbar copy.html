@@ -1,0 +1,62 @@
+{% load static %}
+{% load resources_tags %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+    <div class="container-fluid container">
+      
+      {% if '/resources/' in request.path %}
+      <div class="bd-navbar-toggle">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar" aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <span class="navbar-toggler-icon"></span>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+      {% endif %}
+
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <img width="130" src="{% static 'img/softmsg-logo.png' %}" alt="">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ps-4">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+          </li>
+
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Portfolio
+            </a>
+            <ul class="dropdown-menu">
+              {% get_doc_services '1' as doc_services %}
+              {% for doc_service in doc_services %}
+              <li><a class="dropdown-item" href="{% url 'view_service_resources' doc_service.id %}">{{doc_service.name}}</a></li>
+              {% endfor %}
+
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/#contact-us">FAQ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/#contact-us">Contact us</a>
+          </li>
+
+        </ul>
+
+
+        <div class="d-flex" role="search">
+          <a class="btn btn-success me-2" href="/#contact-us">
+            Start your website
+              <i class="fa-solid fa-caret-right"></i>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+    
+  </nav>

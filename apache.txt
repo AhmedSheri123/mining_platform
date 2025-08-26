@@ -1,0 +1,24 @@
+<VirtualHost *:80>
+    ServerName softmsg.com
+    ServerAdmin admin@softmsg.com
+
+    DocumentRoot /var/www/mining_platform
+
+    Alias /static /var/www/mining_platform/static
+    <Directory /var/www/mining_platform/static>
+        Require all granted
+    </Directory>
+
+    <Directory /var/www/mining_platform/mining_platform>
+        <Files wsgi.py>
+            Require all granted
+        </Files>
+    </Directory>
+
+    WSGIDaemonProcess mining_platform python-path=/var/www/mining_platform python-home=/var/www/mining_platform/venv
+    WSGIProcessGroup mining_platform
+    WSGIScriptAlias / /var/www/mining_platform/mining_platform/wsgi.py
+
+    ErrorLog ${APACHE_LOG_DIR}/mining_platform_error.log
+    CustomLog ${APACHE_LOG_DIR}/mining_platform_access.log combined
+</VirtualHost>
