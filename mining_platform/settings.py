@@ -216,3 +216,8 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Baghdad'  # غيّر بحسب منطقتك
+
+
+
+
+LOGIN_URL = '/dashboard/accounts/Login'
