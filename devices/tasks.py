@@ -11,8 +11,9 @@ def update_device_earnings():
     devices = MyDeviceModel.objects.filter(status='running')
     for device in devices:
 
-        device.hashrate = random.randint(device.device.hashrate_from, device.device.hashrate_to)
-        device.temperature = random.randint(device.device.temperature_from, device.device.temperature_to)
+        device.hashrate = round(random.uniform(device.device.hashrate_from, device.device.hashrate_to), 2)
+        device.temperature = round(random.uniform(device.device.temperature_from, device.device.temperature_to), 1)
+
 
         earnings_increment = get_earnings_increment(
             device.device.daily_profit_from,

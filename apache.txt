@@ -1,3 +1,21 @@
+sudo systemctl stop celery
+sudo systemctl stop celery-beat
+sudo systemctl daemon-reload
+sudo systemctl start celery
+sudo systemctl start celery-beat
+
+
+sudo systemctl status celery
+sudo systemctl status celery-beat
+
+
+
+# worker
+celery -A mining_platform worker -l info
+
+# beat (لتكرار المهمة)
+celery -A mining_platform beat -l info
+============
 <VirtualHost *:80>
     ServerName softmsg.com
     ServerAdmin admin@softmsg.com
