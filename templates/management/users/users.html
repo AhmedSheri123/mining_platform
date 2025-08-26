@@ -29,7 +29,10 @@
                 {% for u in users %}
                 <tr id="user-{{ u.id }}">
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ u.username }}</td>
+                    <td>
+                    {% if u.user.profile.get_is_verified %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %}
+                    {{ u.username }}
+                    </td>
                     <td>{{ u.email }}</td>
                     <td class="devices">{{ u.total_devices }}</td>
                     <td class="balance">{{ u.total_balance }} USDT</td>

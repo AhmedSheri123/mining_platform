@@ -22,6 +22,7 @@ class UserProfile(models.Model):
             # إنشاء كود دعوة فريد عند إنشاء المستخدم
             self.invite_code = self.get_new_invite_code
         super().save(*args, **kwargs)
+    
     @property
     def get_new_invite_code(self):
         return str(uuid.uuid4()).replace("-", "")[:6].upper()
@@ -29,6 +30,11 @@ class UserProfile(models.Model):
     @property
     def get_full_name(self):
         return f'{self.user.first_name} {self.user.last_name}'
+    
+    @property
+    def get_is_verified(self):
+        r = False if not self.referred_by else self.referred_by.profile.is_verified or self.referred_by.is_superuser
+        return r
     
     def __str__(self):
         return f'{self.user.id} - {self.user.username} - {self.get_full_name}' 

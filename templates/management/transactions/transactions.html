@@ -20,7 +20,10 @@
                 {% for t in withdrawals %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ t.user.username }}</td>
+                    <td>
+                        
+                        {% if t.user.profile.get_is_verified %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %}
+                        {{ t.user.username }}</td>
                     <td>{{ t.amount|floatformat:2 }} $</td>
 
                     <td>
@@ -71,7 +74,9 @@
                 {% for t in deposits %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ t.user.username }}</td>
+                    <td>
+                        {% if t.user.profile.get_is_verified %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %}
+                        {{ t.user.username }}</td>
                     <td>{{ t.amount|floatformat:2 }} $</td>
                     <td>
                     <span class="badge bg-primary">{{t.to_user.username}}</span>

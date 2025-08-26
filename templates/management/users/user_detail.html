@@ -5,7 +5,7 @@
 <div class="container p-4">
 
     <div class="alert alert-info" role="alert">
-        👤 معلومات المستخدم: <strong>{{ user_obj.username }}</strong> | 📧 {{ user_obj.email }}
+        👤 معلومات المستخدم: <strong>{% if user_obj.profile.get_is_verified %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %} {{ user_obj.username }}</strong> | 📧 {{ user_obj.email }}
     </div>
     
 

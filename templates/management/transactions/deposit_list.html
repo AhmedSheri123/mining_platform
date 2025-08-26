@@ -25,7 +25,9 @@
                     {% for deposit in deposits %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ deposit.wallet.user.username }}</td>
+                        <td>
+                            {% if deposit.wallet.user.profile.get_is_verified %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %}
+                            {{ deposit.wallet.user.username }}</td>
                         <td>{{ deposit.wallet.address }}</td>
                         <td>{{ deposit.amount|floatformat:2 }} USDT</td>
                         <td>

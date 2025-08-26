@@ -164,6 +164,7 @@ def users_view(request):
         total_pending_withdrawals = Transaction.objects.filter(user=u, transaction_type="withdraw", status="pending").aggregate(total=Sum("amount"))["total"] or 0
         users_data.append({
             'id': u.id,
+            'user':u,
             'username': u.username,
             'email': u.email,
             'total_balance': u.profile.balance,

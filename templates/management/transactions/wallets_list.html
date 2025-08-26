@@ -22,7 +22,9 @@
         {% for wallet in wallets %}
         <tr>
           <td>{{ forloop.counter }}</td>
-          <td>{{ wallet.user.username }}</td>
+          <td>
+            {% if wallet.user.profile.get_is_verified %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %}
+            {{ wallet.user.username }}</td>
           <td>{{ wallet.address }}</td>
           <td><span class="badge bg-success">{{ wallet.balance }} USDT</span></td>
           <td>{{ wallet.created_at|date:"Y-m-d H:i" }}</td>
