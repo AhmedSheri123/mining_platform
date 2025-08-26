@@ -4,11 +4,16 @@ from devices.utils import get_earnings_increment
 from decimal import Decimal
 from datetime import date
 from accounts.models import DailyEarning
+import random
 
 @shared_task
 def update_device_earnings():
     devices = MyDeviceModel.objects.filter(status='running')
     for device in devices:
+
+        device.hashrate = random.randint(device.device.hashrate_from, device.device.hashrate_to)
+        device.temperature = random.randint(device.device.temperature_from, device.device.temperature_to)
+
         earnings_increment = get_earnings_increment(
             device.device.daily_profit_from,
             device.device.daily_profit_to

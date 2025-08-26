@@ -1,0 +1,22 @@
+nano /etc/systemd/system/celery-beat.service
+=====
+
+[Unit]
+Description=Celery Beat Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/var/www/mining_platform
+Environment="PATH=/var/www/mining_platform/venv/bin"
+ExecStart=/var/www/mining_platform/venv/bin/celery -A mining_platform beat -l info --pidfile=/var/run/celery/beat.pid
+
+[Install]
+WantedBy=multi-user.target
+
+==============
+sudo systemctl daemon-reload
+sudo systemctl restart celery-beat
+sudo systemctl status celery-beat
