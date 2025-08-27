@@ -221,3 +221,4 @@ CELERY_TIMEZONE = 'Asia/Baghdad'  # غيّر بحسب منطقتك
 
 
 LOGIN_URL = '/dashboard/accounts/Login'
+
