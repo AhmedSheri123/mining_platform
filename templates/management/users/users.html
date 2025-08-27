@@ -20,6 +20,7 @@
                     <th>{% trans "الأرباح" %}</th>
                     <th>{% trans "الإيداعات" %}</th>
                     <th>{% trans "السحوبات" %}</th>
+                    <th>{% trans "عدد السحوبات" %}</th>
                     <th>{% trans "السحوبات المعلقة" %}</th>
                     <th>{% trans "تاريخ التسجيل" %}</th>
                     <th>{% trans "الإجراءات" %}</th>
@@ -39,6 +40,7 @@
                     <td class="earnings">{{ u.total_earnings }} USDT</td>
                     <td class="deposits">{{ u.total_deposits }} USDT</td>
                     <td class="withdrawals">{{ u.total_withdrawals }} USDT</td>
+                    <td class="withdrawals">{{ u.total_withdrawals_mod.count }}</td>
                     <td class="pending_withdrawals">{{ u.total_pending_withdrawals }} USDT</td>
                     <td>{{ u.date_joined|date:"Y-m-d" }}</td>
                     <td>

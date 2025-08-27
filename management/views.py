@@ -159,9 +159,10 @@ def users_view(request):
             total_earnings = 0
 
         total_deposits = Deposit.objects.filter(wallet__user=u).aggregate(total=Sum('amount'))['total'] or 0
-        total_withdrawals = Transaction.objects.filter(user=u, transaction_type='withdraw', status="approved").aggregate(total=Sum('amount'))['total'] or 0
+        total_withdrawals = Transaction.objects.filter(user=u, transaction_type='withdraw', status="approved")
         total_devices = MyDeviceModel.objects.filter(owner=u).count()
         total_pending_withdrawals = Transaction.objects.filter(user=u, transaction_type="withdraw", status="pending").aggregate(total=Sum("amount"))["total"] or 0
+        
         users_data.append({
             'id': u.id,
             'user':u,
@@ -170,7 +171,8 @@ def users_view(request):
             'total_balance': u.profile.balance,
             'total_earnings': total_earnings,
             'total_deposits': total_deposits,
-            'total_withdrawals': total_withdrawals,
+            'total_withdrawals_mod': total_withdrawals,
+            'total_withdrawals': total_withdrawals.aggregate(total=Sum('amount'))['total'] or 0,
             'total_pending_withdrawals': total_pending_withdrawals,
             'date_joined': u.date_joined,
             'total_devices':total_devices,

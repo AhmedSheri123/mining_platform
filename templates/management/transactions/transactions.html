@@ -1,4 +1,7 @@
 {% extends "management_base.html" %}
+{% load i18n %}
+{% load custom_filters %}
+
 {% block sheri %}
 
 <div class="container p-4">
@@ -11,6 +14,12 @@
                     <th>المستخدم</th>
                     <th>المبلغ</th>
                     <th>المستلم</th>
+                    <th>{% trans "الرصيد" %}</th>
+                    <th>{% trans "الأرباح" %}</th>
+                    <th>{% trans "الإيداعات" %}</th>
+                    <th>{% trans "السحوبات" %}</th>
+                    <th>{% trans "عدد السحوبات" %}</th>
+                    <th>{% trans "السحوبات المعلقة" %}</th>
                     <th>الحالة</th>
                     <th>تاريخ الطلب</th>
                     <th>الإجراءات</th>
@@ -29,6 +38,14 @@
                     <td>
                         <span class="badge bg-primary">{{t.wallet_address}}</span>
                     </td>
+                    {% with t.user.id|user_data_json as user_data %}
+                        <td>{{ user_data|json_value:"total_balance" }}</td>
+                        <td>{{ user_data|json_value:"total_earnings" }}</td>
+                        <td>{{ user_data|json_value:"total_deposits" }}</td>
+                        <td>{{ user_data|json_value:"total_withdrawals" }}</td>
+                        <td>{{ user_data|json_value:"total_withdrawals_count" }}</td>
+                        <td>{{ user_data|json_value:"total_pending_withdrawals" }}</td>
+                    {% endwith %}
 
                     <td>
                         {% if t.status == 'pending' %}
