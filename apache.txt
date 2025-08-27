@@ -1,3 +1,7 @@
+ssh root@77.37.122.10
+Mahranabuabed@2907
+
+
 systemctl restart apache2
 sudo systemctl stop celery
 sudo systemctl stop celery-beat

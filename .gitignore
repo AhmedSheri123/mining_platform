@@ -67,3 +67,4 @@ coverage.xml
 
 # Pytest
 .pytest_cache/
+mining_platform/settings.py
