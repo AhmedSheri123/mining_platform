@@ -18,16 +18,16 @@ class Command(BaseCommand):
             devices = MyDeviceModel.objects.filter(status='running')
             for device in devices:
 
-                # تحديث القيم العشوائية بنسبة ±5%
-                device.hashrate = random.randint(
-                    int(device.hashrate), int(device.hashrate + device.hashrate * 0.05)
-                )
-                device.temperature = random.randint(
-                    int(device.temperature), int(device.temperature + device.temperature * 0.05)
-                )
-                device.wattage = random.randint(
-                    int(device.wattage), int(device.wattage + device.wattage * 0.05)
-                )
+                # # تحديث القيم العشوائية بنسبة ±5%
+                # device.hashrate = random.randint(
+                #     int(device.hashrate), int(device.hashrate + device.hashrate * 0.05)
+                # )
+                # device.temperature = random.randint(
+                #     int(device.temperature), int(device.temperature + device.temperature * 0.05)
+                # )
+                # device.wattage = random.randint(
+                #     int(device.wattage), int(device.wattage + device.wattage * 0.05)
+                # )
 
                 # تشغيل المرحلة الحالية واستهلاك الطاقة
                 result = device.run_stage()
