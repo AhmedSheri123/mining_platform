@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% block sheri %}
+
+
+ <!-- تسجيل حساب -->
+ <div class="px-3 my-5">
+    <div class="container py-3 border rounded shadow-lg" style="max-width: 568px;">
+        <form class="p-4 p-sm-5" method='post'>
+            {% csrf_token %}
+            <div class="text-center">
+                <img width="130" src="{% static 'img/softmsg-logo.webp' %}" alt="" class="mb-2">
+                <h3 class="mb-3 text-dark">إنشاء حساب جديد</h3>
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2">
+                <div class="mb-3 col">
+                    <label for="exampleFormControlInput1" class="form-label">
+                        الاسم الأول
+                    </label>
+                    {{user_form.first_name}}
+                </div>
+                <div class="mb-3 col">
+                    <label for="exampleFormControlInput1" class="form-label">
+                        اسم العائلة
+                    </label>
+                    {{user_form.last_name}}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">
+                    <i class="fa-solid fa-envelope"></i>
+                    اسم المستخدم
+                </label>
+                {{user_form.username}}
+            </div>
+
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">
+                    <i class="fa-solid fa-lock"></i>
+                    كلمة المرور
+                </label>
+                {{user_form.password}}
+            </div>
+
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">
+                    <i class="fa-solid fa-star"></i>
+                    كود الدعوة
+                </label>
+                <input type="text" class="form-control" name="invite_code" id="invite_code">
+            </div>
+
+            <button class="btn btn-dark mx-auto d-block mb-3">
+                <i class="fa-solid fa-user"></i>
+                إنشاء الحساب
+            </button>
+
+            <!-- زر تسجيل الدخول -->
+            <a href="{% url 'Login' %}" class="btn btn-outline-primary mx-auto d-block">
+                لديك حساب بالفعل؟ تسجيل الدخول
+            </a>
+        </form>
+    </div>
+</div>
+ <!-- نهاية تسجيل حساب -->
+
+{% endblock sheri %}

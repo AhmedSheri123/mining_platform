@@ -1,0 +1,71 @@
+{% extends "management_base.html" %}
+{% block sheri %}
+
+<div class="container p-4">
+    <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+            <h4>جميع الإيداعات</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>المستخدم</th>
+                        <th>المحفظة</th>
+                        <th>المبلغ</th>
+                        <th>الحالة</th>
+                        <th>معرّف المعاملة</th>
+                        <th>تاريخ الإنشاء</th>
+                        <th>تاريخ التأكيد</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for deposit in deposits %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            {% if deposit.wallet.user.profile.get_is_verified %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %}
+                            {{ deposit.wallet.user.username }}</td>
+                        <td>{{ deposit.wallet.address }}</td>
+                        <td>{{ deposit.amount|floatformat:2 }} USDT</td>
+                        <td>
+                            {% if deposit.status == 'pending' %}
+                                <span class="badge bg-warning">قيد الانتظار</span>
+                            {% elif deposit.status == 'confirmed' %}
+                                <span class="badge bg-success">تم التأكيد</span>
+                            {% else %}
+                                <span class="badge bg-danger">مرفوض</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ deposit.txid }}</td>
+                        <td>{{ deposit.created_at|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            {% if deposit.confirmed_at %}
+                                {{ deposit.confirmed_at|date:"Y-m-d H:i" }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if deposit.status == 'pending' %}
+                                <a href="{% url 'approve_deposit' deposit.id %}" class="btn btn-sm btn-success">الموافقة</a>
+                                <a href="{% url 'reject_deposit' deposit.id %}" class="btn btn-sm btn-danger">رفض</a>
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="9" class="text-muted">لا توجد إيداعات مسجلة بعد.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock sheri %}

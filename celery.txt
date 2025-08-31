@@ -1,0 +1,4 @@
+celery -A mining_platform worker --loglevel=info --pool=solo
+celery -A mining_platform beat --loglevel=info
+
+python manage.py run_update

@@ -1,0 +1,71 @@
+RecoveryCodes.txt
+# Python
+*.pyc
+*.pyo
+__pycache__/
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+
+sdist/
+develop-eggs/
+.installed.cfg
+*.so
+*.log
+
+# Django
+*.sqlite3
+db.sqlite3
+*.py[cod]
+__pycache__/
+*.mo
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.bak
+*.swp
+
+# Media
+media/
+staticfiles/
+
+# Virtualenv
+venv/
+env/
+ENV/
+.env/
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Celery Beat schedule file
+celerybeat-schedule
+
+# Coverage
+.coverage
+htmlcov/
+*.cover
+*.py,cover
+nosetests.xml
+coverage.xml
+*.lcov
+
+# Pytest
+.pytest_cache/
+mining_platform/settings.py
+apache.txt

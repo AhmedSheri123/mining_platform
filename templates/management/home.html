@@ -1,0 +1,250 @@
+{% extends "management_base.html" %}
+
+{% block sheri %}
+<div class="container p-4">
+    <div class="alert alert-primary">
+        👋 أهلاً بك في لوحة تحكم الأدمن يا {{ request.user.username }}
+    </div>
+
+
+    <h4 class="mt-5 mb-3">📊 إحصائيات اليوم</h4>
+    <div class="row row-cols-2 row-cols-md-4 g-3 mb-3">
+        <div class="col">
+            <div class="card rounded-4 text-white bg-primary p-3">
+                <h6>مستخدمين جدد</h6>
+                <h2>{{ new_users_today }}</h2>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card rounded-4 text-white bg-success p-3">
+                <h6>الأرباح اليوم</h6>
+                <h2>{{ earnings_today|floatformat:2 }} $</h2>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card rounded-4 text-white bg-success p-3">
+                <h6>الأيداعات اليوم</h6>
+                <h2>{{ deposit_earnings_today|floatformat:2 }} $</h2>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card rounded-4 text-white bg-success p-3">
+                <h6>السحوبات اليوم</h6>
+                <h2>{{ transaction_earnings_today|floatformat:2 }} $</h2>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card rounded-4 text-white bg-dark p-3">
+                <h6>الأجهزة المشترية اليوم</h6>
+                <h2>{{ buyed_devices_today }}</h2>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card rounded-4 bg-warning p-3">
+                <h6>المعاملات اليوم</h6>
+                <h2>{{ transactions_today }}</h2>
+            </div>
+        </div>
+    </div>
+
+
+    <h4 class="mb-3">إحصائيات عامة</h4>
+    <div class="row row-cols-2 row-cols-md-4 g-3 mb-3">
+        <div class="col">
+            <div class="card rounded-4 text-white bg-primary p-3">
+                <h6>إجمالي المستخدمين</h6>
+                <h2>{{ total_users }}</h2>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card rounded-4 text-white bg-success p-3">
+                <h6>إجمالي الأرباح</h6>
+                <h2>{{ total_earnings|floatformat:2 }} $</h2>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card rounded-4 text-white bg-success p-3">
+                <h6>إجمالي الأيداعات </h6>
+                <h2>{{ total_deposit_earnings|floatformat:2 }} $</h2>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card rounded-4 text-white bg-success p-3">
+                <h6>إجمالي السحوبات </h6>
+                <h2>{{ total_transaction_earnings|floatformat:2 }} $</h2>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card rounded-4 text-white bg-dark p-3">
+                <h6>إجمالي الأرصدة</h6>
+                <h2>{{ total_balance|floatformat:2 }} $</h2>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card rounded-4 bg-warning p-3">
+                <h6>الأجهزة النشطة</h6>
+                <h2>{{ active_devices }}/{{ total_devices }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <h5>آخر المستخدمين</h5>
+            <ul class="list-group">
+                {% for user in latest_users %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ user.user.username }} 
+                        <span class="text-muted">{{ user.balance|floatformat:2 }} $</span>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">لا يوجد مستخدمين بعد</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+        <div class="col-md-6 mb-3">
+            <h5>آخر الأيداعات</h5>
+            <ul class="list-group">
+                {% for user in latest_deposits %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ user.wallet.user.username }} 
+                        <span class="text-muted">{{ user.amount|floatformat:2 }} $</span>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">لا يوجد ايداعات بعد</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <h5>آخر المعاملات</h5>
+            <ul class="list-group">
+                {% for tx in latest_transactions %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ tx.user.username }} 
+                        <span class="text-success">{{ tx.amount|floatformat:2 }} $</span>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">لا توجد معاملات بعد</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="container p-4">
+        <h5>مؤشر الرصيد والإيداعات لآخر 30 أيام</h5>
+        <canvas id="threeDaysChart" style="height:300px;"></canvas>
+    </div>
+
+    <div class="container py-4">
+        <h5>مؤشرات الموقع</h5>
+        <canvas id="balancesChart" style="height:300px;"></canvas>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('balancesChart').getContext('2d');
+const balancesChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ difference_chart_labels|safe }},
+        datasets: [{
+            label: 'الدولار $',
+            data: {{ difference_chart_data|safe }},
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.7)',  // الرصيد الكلي
+                'rgba(75, 192, 192, 0.7)',  // الإيداعات
+                'rgba(255, 206, 86, 0.7)'   // الفارق
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: 'الرصيد الكلي مقابل الإيداعات والفارق'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+
+
+
+const ctxThreeDays = document.getElementById('threeDaysChart').getContext('2d');
+
+new Chart(ctxThreeDays, {
+    type: 'line', // مخطط خطي
+    data: {
+        labels: {{ chart_labels|safe }},
+        datasets: [
+            {
+                label: 'أرباح المستخدمين',
+                data: {{ balance_data|safe }},
+                borderColor: 'rgba(255, 99, 132, 1)', // أحمر
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderWidth: 2,
+                tension: 0.3, // لتنعيم الخط
+                fill: false
+            },
+            {
+                label: 'إجمالي الإيداعات',
+                data: {{ deposits_data|safe }},
+                borderColor: 'rgba(75, 192, 75, 1)', // أخضر
+                backgroundColor: 'rgba(75, 192, 75, 0.2)',
+                borderWidth: 2,
+                tension: 0.3,
+                fill: false
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
+        plugins: {
+            legend: {
+                display: true,
+                labels: {
+                    font: { size: 14 }
+                }
+            },
+            tooltip: {
+                enabled: true,
+                mode: 'nearest',
+                intersect: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+</script>
+
+</div>
+{% endblock sheri %}

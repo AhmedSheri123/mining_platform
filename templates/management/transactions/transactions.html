@@ -1,0 +1,117 @@
+{% extends "management_base.html" %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block sheri %}
+
+<div class="container p-4">
+    <h5>طلبات السحب</h5>
+    <div class="tabel-box">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>المستخدم</th>
+                    <th>المبلغ</th>
+                    <th>المستلم</th>
+                    <th>{% trans "الرصيد" %}</th>
+                    <th>{% trans "الأرباح" %}</th>
+                    <th>{% trans "الإيداعات" %}</th>
+                    <th>{% trans "السحوبات" %}</th>
+                    <th>{% trans "عدد السحوبات" %}</th>
+                    <th>{% trans "السحوبات المعلقة" %}</th>
+                    <th>الحالة</th>
+                    <th>تاريخ الطلب</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in withdrawals %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        
+                        {% if t.user.profile.get_is_verified %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %}
+                        {{ t.user.username }}</td>
+                    <td>{{ t.amount|floatformat:2 }} $</td>
+
+                    <td>
+                        <span class="badge bg-primary">{{t.wallet_address}}</span>
+                    </td>
+                    {% with t.user.id|user_data_json as user_data %}
+                        <td>{{ user_data|json_value:"total_balance" }}</td>
+                        <td>{{ user_data|json_value:"total_earnings" }}</td>
+                        <td>{{ user_data|json_value:"total_deposits" }}</td>
+                        <td>{{ user_data|json_value:"total_withdrawals" }}</td>
+                        <td>{{ user_data|json_value:"total_withdrawals_count" }}</td>
+                        <td>{{ user_data|json_value:"total_pending_withdrawals" }}</td>
+                    {% endwith %}
+
+                    <td>
+                        {% if t.status == 'pending' %}
+                            <span class="badge bg-warning">معلق</span>
+                        {% elif t.status == 'approved' %}
+                            <span class="badge bg-success">تم الموافقة</span>
+                        {% else %}
+                            <span class="badge bg-danger">مرفوض</span>
+                        {% endif %}
+                    </td>
+
+
+
+                    <td>{{ t.created_at|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        {% if t.status == 'pending' %}
+                            <a href="{% url 'approve_withdrawal' t.id %}" class="btn btn-sm btn-success">موافقة</a>
+                            <a href="{% url 'reject_withdrawal' t.id %}" class="btn btn-sm btn-danger">رفض</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h5 class="mt-4">التحويلات الداخلية</h5>
+    <div class="tabel-box">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>المستخدم</th>
+                    <th>المبلغ</th>
+                    <th>المستلم</th>
+                    <th>الحالة</th>
+                    <th>تاريخ الإيداع</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in deposits %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        {% if t.user.profile.get_is_verified %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %}
+                        {{ t.user.username }}</td>
+                    <td>{{ t.amount|floatformat:2 }} $</td>
+                    <td>
+                    <span class="badge bg-primary">{{t.to_user.username}}</span>
+                    </td>
+                    <td>
+                        {% if t.status == 'approved' %}
+                            <span class="badge bg-success">تم الموافقة</span>
+                        {% else %}
+                            <span class="badge bg-warning">معلق</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ t.created_at|date:"Y-m-d H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock sheri %}

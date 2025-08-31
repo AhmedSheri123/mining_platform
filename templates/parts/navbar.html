@@ -1,0 +1,84 @@
+{% load static %}
+{% load i18n %}
+
+<nav class="navbar navbar-expand-lg fixed-top mt-3" dir="rtl">
+  <div class="container-fluid container justify-content-center justify-content-lg-between">
+    
+    {% if '/resources/' in request.path %}
+    <div class="bd-navbar-toggle">
+      <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar" aria-controls="bdSidebar" aria-label="تبديل القائمة">
+        <span class="navbar-toggler-icon"></span>
+        <span class="d-none fs-6 pe-1">تصفح</span>
+      </button>
+    </div>
+    {% endif %}
+
+    <!-- الشعار -->
+    <a class="navbar-brand glass-eff p-2" href="{% url 'index' %}">
+      <img width="130" src="{% static 'img/softmsg-logo.png' %}" alt="SOFTmsg Logo">
+    </a>
+
+    <!-- زر القائمة للجوال -->
+    <button class="navbar-toggler glass-eff" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="تبديل القائمة">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- الروابط -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto p-2 my-3 my-lg-0 ps-4 glass-eff ">
+        <li class="nav-item">
+          <a class="nav-link {% if 'index' == request.resolver_match.view_name %}active{% endif %}" href="{% url 'index' %}">الرئيسية</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if 'FAQ' == request.resolver_match.view_name %}active{% endif %}" href="#faq">الأسئلة الشائعة</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact-us">اتصل بنا</a>
+        </li>
+      </ul>
+
+      <!-- زر اللغة وزر ابدأ -->
+      <div class="d-flex justify-content-center">
+        
+        <!-- اختيار اللغة -->
+        <div class="dropdown">
+          <button class="btn btn-light dropdown-toggle rounded-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-globe"></i>
+          </button>
+          <ul class="dropdown-menu border-0 p-0 bg-transparent">
+            <form method="post" action="{% url 'change_language' %}" id="language-form">
+              {% csrf_token %}
+              <select name="language" multiple class="form-select rounded-4" onchange="{document.querySelector('#language-form').submit()}">
+                <option value="en">English</option>
+                <option value="ro">Română</option>
+                <option value="de">Deutsch</option>
+                <option value="ar" selected>العربية</option>
+              </select>
+            </form>
+          </ul>
+        </div> 
+
+<!-- زر ابدأ -->
+{% if user.is_authenticated %}
+{% if user.is_superuser %}
+    <a class="btn btn-primary me-2 rounded-4 ms-2" href="{% url 'management' %}">
+        لوحة التحكم المدير
+        <i class="fa-solid fa-gauge-high"></i>
+    </a>
+{% endif %}
+    <a class="btn btn-primary me-2 rounded-4 ms-2" href="{% url 'dashboard' %}">
+        لوحة التحكم
+        <i class="fa-solid fa-gauge-high"></i>
+    </a>
+{% else %}
+    <a class="btn btn-primary me-2 rounded-4 ms-2" href="{% url 'Login' %}">
+        تسجيل الدخول
+        <i class="fa-solid fa-right-to-bracket"></i>
+    </a>
+{% endif %}
+
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,110 @@
+{% extends "management_base.html" %}
+{% load i18n %}
+{% block sheri %}
+
+<div class="bg-primary p-3">
+    <a href="" class="btn btn-light">➕ إضافة مستخدم</a>
+</div>
+
+<div class="container p-4 ">
+    <h5>المستخدمون</h5>
+    <div class="tabel-box">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{% trans "اسم المستخدم" %}</th>
+                    <th>{% trans "البريد" %}</th>
+                    <th>{% trans "الاجهزة" %}</th>
+                    <th>{% trans "الرصيد" %}</th>
+                    <th>{% trans "الأرباح" %}</th>
+                    <th>{% trans "الإيداعات" %}</th>
+                    <th>{% trans "السحوبات" %}</th>
+                    <th>{% trans "عدد السحوبات" %}</th>
+                    <th>{% trans "السحوبات المعلقة" %}</th>
+                    <th>{% trans "تاريخ التسجيل" %}</th>
+                    <th>{% trans "الإجراءات" %}</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body">
+                {% for u in users %}
+                <tr id="user-{{ u.id }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                    {% if u.user.profile.get_is_verified %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %}
+                    {{ u.username }}
+                    </td>
+                    <td>{{ u.email }}</td>
+                    <td class="devices">{{ u.total_devices }}</td>
+                    <td class="balance">{{ u.total_balance }} USDT</td>
+                    <td class="earnings">{{ u.total_earnings }} USDT</td>
+                    <td class="deposits">{{ u.total_deposits }} USDT</td>
+                    <td class="withdrawals">{{ u.total_withdrawals }} USDT</td>
+                    <td class="withdrawals">{{ u.total_withdrawals_mod.count }}</td>
+                    <td class="pending_withdrawals">{{ u.total_pending_withdrawals }} USDT</td>
+                    <td>{{ u.date_joined|date:"Y-m-d" }}</td>
+                    <td>
+                        <a href="{% url 'user_detail' u.id %}" class="btn btn-sm btn-primary">عرض</a>
+                        <a href="{% url 'edit_user' u.id %}" class="btn btn-sm btn-primary">تعديل</a>
+                        <a class="btn btn-sm btn-danger" data-bs-toggle="modal" onclick="deleteItem('{% url 'delete_user' u.id %}')" data-bs-target="#exampleModal">حذف</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content rounded-3 shadow">
+      <div class="modal-body p-4 text-center">
+        <h5 class="mb-0">هل تريد حذف هذا المستخدم؟</h5>
+        <p class="mb-0">بعد الحذف لا يمكنك استعادته مرة أخرى.</p>
+      </div>
+      <div class="modal-footer flex-nowrap p-0">
+        <a type="button" id="yesDelete" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong>نعم، احذف</strong></a>
+        <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">لا، شكراً</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Modal  -->
+
+<script>
+  function deleteItem(url){
+    document.querySelector('#yesDelete').href = url;
+  }
+</script>
+
+<script>
+function updateUserRow(row, data) {
+    row.querySelector(".devices").textContent = data.total_devices;
+    row.querySelector(".balance").textContent = data.total_balance + " USDT";
+    row.querySelector(".earnings").textContent = data.total_earnings + " USDT";
+    row.querySelector(".deposits").textContent = data.total_deposits + " USDT";
+    row.querySelector(".withdrawals").textContent = data.total_withdrawals + " USDT";
+    row.querySelector(".pending_withdrawals").textContent = data.total_pending_withdrawals + " USDT";
+}
+
+function fetchUserUpdatesSequential() {
+    fetch("{% url 'users_status' %}")
+    .then(response => response.json())
+    .then(data => {
+        data.users.forEach((d, index) => {
+            setTimeout(() => {
+                const row = document.querySelector(`#user-${d.id}`);
+                if(row){
+                    updateUserRow(row, d);
+                }
+            }, index * 500); // تحديث تدريجي
+        });
+    });
+}
+
+// تحديث كل 5 ثواني
+setInterval(fetchUserUpdatesSequential, 5000);
+</script>
+
+{% endblock sheri %}

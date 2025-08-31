@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block sheri %}
+<!-- الهيدر -->
+<div class="px-4 py-5 text-center">
+  <div class="py-4 text-body-emphasis">
+    <h1 class="display-5 fw-bold container mb-4">
+      كل أدوات التعدين في منصة واحدة<br>
+      <span class="text-primary">تحكم كامل – أرباح أعلى – متابعة لحظية</span>
+    </h1>
+    <div class="col-lg-7 mx-auto">
+      <p class="fs-5 mb-4">
+        اكتشف تجربة تعدين سهلة وآمنة إدارة المحافظ، شراء ومراقبة الأجهزة، تتبع الأرباح في الوقت الحقيقي، 
+        واستفد من نظام الدعوات الذكي لزيادة دخلك من خلال شبكة أصدقائك.
+      </p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="{% url 'Signup' %}" class="btn btn-primary btn-lg px-4">
+          إنشاء حساب مجاني
+          <i class="fa-solid fa-caret-right"></i>
+        </a>
+        <a href="https://wa.me/963980606953" target="_blank" class="btn btn-success btn-lg px-4">
+          تواصل معنا
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- نهاية الهيدر -->
+
+
+<!-- كيف تعمل المنصة -->
+<div class="container py-5">
+  <h2 class="text-center mb-5">كيف تعمل منصتنا؟</h2>
+  <div class="row g-4 text-center">
+    <div class="col-md-3">
+      <div class="p-4 border rounded-4 shadow-sm bg-light">
+        <i class="fa-solid fa-user-plus fa-2x text-primary mb-3"></i>
+        <h4>1. التسجيل</h4>
+        <p>قم بإنشاء حسابك في ثوانٍ واحصل على محفظة فورية لبدء رحلتك.</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-4 border rounded-4 shadow-sm bg-light">
+        <i class="fa-solid fa-wallet fa-2x text-success mb-3"></i>
+        <h4>2. شحن المحفظة</h4>
+        <p>اشحن محفظتك بالـ USDT بسهولة من أي منصة خارجية.</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-4 border rounded-4 shadow-sm bg-light">
+        <i class="fa-solid fa-server fa-2x text-warning mb-3"></i>
+        <h4>3. شراء جهاز</h4>
+        <p>اختر الجهاز المناسب لك ليبدأ التعدين بشكل فوري.</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-4 border rounded-4 shadow-sm bg-light">
+        <i class="fa-solid fa-coins fa-2x text-info mb-3"></i>
+        <h4>4. استلام الأرباح</h4>
+        <p>تابع أرباحك بشكل لحظي واسحبها في أي وقت.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- نهاية كيف تعمل -->
+
+
+<!-- إحصائيات -->
+<div class="bg-dark text-light py-5">
+  <div class="container text-center">
+    <h2 class="mb-4">أرقامنا تتحدث عنا</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h1 class="text-primary">+1500</h1>
+        <p>جهاز تعدين نشط</p>
+      </div>
+      <div class="col-md-4">
+        <h1 class="text-success">$2M</h1>
+        <p>إجمالي الأرباح المدفوعة</p>
+      </div>
+      <div class="col-md-4">
+        <h1 class="text-warning">+1000</h1>
+        <p>مستخدمين حول العالم</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- نهاية الإحصائيات -->
+
+<!-- أنواع الأجهزة -->
+<div class="container py-5">
+  <h2 class="text-center mb-5">أجهزة التعدين المتوفرة</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+
+    {% for device in devices %}
+    <div class="col">
+      <div class="card h-100 border-0 shadow-sm rounded-4">
+        
+        <!-- صورة الجهاز -->
+        {% if device.image %}
+        <img src="{{ device.image.url }}" class="card-img-top rounded-top-4" alt="{{ device.name }}">
+        {% endif %}
+
+        <div class="card-body text-center">
+          <h4 class="fw-bold">{{ device.name }}</h4>
+          <p class="text-muted">{{ device.desc|truncatechars:60 }}</p>
+
+          <!-- هاش ريت -->
+          <p>⚡ قوة: <strong>{{ device.hashrate_from }} ~ {{ device.hashrate_to }} MH/s</strong></p>
+
+          <!-- أرباح يومية -->
+          <p>💰 ربح يومي: 
+            <span class="text-success">{{ device.daily_profit_from }} ~ {{ device.daily_profit_to }} USDT</span>
+          </p>
+
+          <!-- حرارة -->
+          <p>🌡️ حرارة: {{ device.temperature_from }}°C - {{ device.temperature_to }}°C</p>
+
+          <!-- استهلاك كهرباء -->
+          <p>🔌 استهلاك: {{ device.wattage }} W</p>
+
+          <!-- العمر -->
+          <p>📅 العمر: {{ device.age }} سنوات</p>
+
+          <!-- السعر -->
+          <h5 class="text-success">💲 {{ device.price }} USDT</h5>
+
+          <a href="{% url 'buy_device' device.pk %}" class="btn btn-primary w-100 mt-2">
+            شراء
+          </a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+      <p class="text-center">🚫 لا توجد أجهزة حالياً</p>
+    {% endfor %}
+
+  </div>
+</div>
+<!-- نهاية الأجهزة -->
+
+
+<!-- مراجعات المستخدمين -->
+<div class="container py-5">
+  <h2 class="text-center py-4">مراجعات المستخدمين</h2>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+    <!-- مراجعة 1 -->
+    <div class="col">
+      <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
+        <img src="{% static 'img/reviews/review--0.jpg' %}" class="rounded-circle mb-3" width="60" alt="مستخدم 1">
+        <h5 class="mb-2">محمد علي</h5>
+        <p class="text-muted mb-2">سوريا</p>
+        <p>منصة رائعة! متابعة الأرباح أصبحت أسهل بكثير، ونظام الدعوات ساعدني على زيادة الأرباح بشكل ملحوظ.</p>
+        <div class="text-warning">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- مراجعة 2 -->
+    <div class="col">
+      <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
+        <img src="{% static 'img/reviews/review--2.jpg' %}" class="rounded-circle mb-3" width="60" alt="مستخدم 2">
+        <h5 class="mb-2">أحمد عبدالله</h5>
+        <p class="text-muted mb-2">العراق</p>
+        <p>تجربة ممتازة! كل الأجهزة متاحة للشراء بسهولة، والإحصائيات الحية تساعدني على اتخاذ القرارات بسرعة.</p>
+        <div class="text-warning">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- مراجعة 3 -->
+    <div class="col">
+      <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
+        <img src="{% static 'img/reviews/review--3.jpg' %}" class="rounded-circle mb-3" width="60" alt="مستخدم 3">
+        <h5 class="mb-2">نور جلال</h5>
+        <p class="text-muted mb-2">مصر</p>
+        <p>واجهة سهلة الاستخدام ودعم فني ممتاز. الأنظمة تعمل بسرعة والأرباح تظهر مباشرة على حسابي.</p>
+        <div class="text-warning">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- نهاية مراجعات المستخدمين -->
+
+
+
+<!-- مميزات إضافية -->
+<div class="container py-5">
+  <h2 class="text-center py-4">مميزات إضافية</h2>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+
+    <div class="col">
+      <div class="card h-100 text-center border-0 shadow-sm rounded-4 p-4">
+        <i class="fa-solid fa-tachometer-alt fa-3x mb-3 text-primary"></i>
+        <h5 class="mb-2">لوحة تحكم سهلة</h5>
+        <p class="mb-0">تحكم كامل وبسيط في جميع أجهزة التعدين والأرباح دون أي تعقيد.</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card h-100 text-center border-0 shadow-sm rounded-4 p-4">
+        <i class="fa-solid fa-mobile-alt fa-3x mb-3 text-success"></i>
+        <h5 class="mb-2">دعم متعدد الأجهزة</h5>
+        <p class="mb-0">يمكنك الوصول إلى المنصة من الحاسوب، الهاتف الذكي أو التابلت بسهولة تامة.</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card h-100 text-center border-0 shadow-sm rounded-4 p-4">
+        <i class="fa-solid fa-chart-line fa-3x mb-3 text-warning"></i>
+        <h5 class="mb-2">تقارير وإحصائيات يومية</h5>
+        <p class="mb-0">احصل على تحديث يومي لجميع بيانات أرباحك وأداء أجهزتك مباشرة من لوحة التحكم.</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card h-100 text-center border-0 shadow-sm rounded-4 p-4">
+        <i class="fa-solid fa-shield-halved fa-3x mb-3 text-danger"></i>
+        <h5 class="mb-2">حماية وأمان متقدم</h5>
+        <p class="mb-0">أنظمة حماية متقدمة لضمان أمان بياناتك وأرباحك على المنصة.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- نهاية مميزات إضافية -->
+
+
+
+<!-- قسم الدعوة -->
+{% if user.is_authenticated %}
+<div class="container py-5 text-center">
+  <h2 class="mb-4">كود الدعوة الخاص بك</h2>
+  <div class="bg-light p-4 rounded shadow-sm">
+    <h3 class="text-primary" id="inviteCode">{{ user.profile.invite_code }}</h3>
+    <p>انسخ الكود وشاركه مع أصدقائك لتحصل على مكافآت عند انضمامهم.</p>
+    <button onclick="copyCode()" class="btn btn-outline-primary mt-2">
+      <i class="fa-solid fa-copy"></i> نسخ الكود
+    </button>
+  </div>
+</div>
+<script>
+function copyCode() {
+  var code = document.getElementById("inviteCode").innerText;
+  navigator.clipboard.writeText(code);
+  alert("تم نسخ الكود بنجاح!");
+}
+</script>
+{% endif %}
+<!-- نهاية الدعوة -->
+
+
+<!-- الأسئلة الشائعة -->
+<div class="container py-5">
+  <h2 class="text-center mb-5">الأسئلة الشائعة</h2>
+  <div class="accordion" id="faq">
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1">
+          كيف يمكنني شحن المحفظة؟
+        </button>
+      </h2>
+      <div id="a1" class="accordion-collapse collapse show" data-bs-parent="#faq">
+        <div class="accordion-body">
+          يمكنك شحن المحفظة من خلال إرسال USDT إلى عنوانك الظاهر داخل حسابك.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2">
+          متى أحصل على أرباحي؟
+        </button>
+      </h2>
+      <div id="a2" class="accordion-collapse collapse" data-bs-parent="#faq">
+        <div class="accordion-body">
+          الأرباح تبدأ بالظهور فور شراء الجهاز وتُحدث بشكل دوري.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a3">
+          هل يمكن سحب الأرباح بأي وقت؟
+        </button>
+      </h2>
+      <div id="a3" class="accordion-collapse collapse" data-bs-parent="#faq">
+        <div class="accordion-body">
+          نعم، يمكنك طلب السحب متى شئت وسيتم إرساله إلى محفظتك الخارجية.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- نهاية FAQ -->
+
+
+<!-- تواصل معنا -->
+<div class="bg-dark text-light py-5" id="contact-us">
+  <div class="container" style="max-width: 568px;">
+    <h2 class="text-center mb-4">هل تريد الانضمام إلينا أو لديك استفسار؟</h2>
+
+    <form method="post" action="{% url 'Contact' %}" class="bg-light p-4 rounded shadow-sm text-dark">
+      {% csrf_token %}
+      <h3 class="mb-3 text-center">نموذج التواصل</h3>
+      <div class="mb-3">
+        <label><i class="fa-solid fa-user"></i> الاسم الكامل</label>
+        {{ form.full_name }}
+      </div>
+      <div class="mb-3">
+        <label><i class="fa-solid fa-envelope"></i> البريد الإلكتروني</label>
+        {{ form.email }}
+      </div>
+      <div class="mb-3">
+        <label><i class="fa-solid fa-phone"></i> رقم الهاتف</label>
+        {{ form.phone_number }}
+      </div>
+      <div class="mb-3">
+        <label><i class="fa-solid fa-message"></i> رسالتك</label>
+        {{ form.project_description }}
+      </div>
+      <button class="btn btn-primary d-block mx-auto px-5">
+        إرسال <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
+</div>
+<!-- نهاية تواصل معنا -->
+
+{% endblock sheri %}

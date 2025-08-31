@@ -1,0 +1,96 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+{% block sheri %}
+
+<div class="container p-4">
+
+    <div class="alert alert-info text-center">
+        👋 مرحباً {{ request.user.username }}! هنا نظرة على دعواتك ومكافآتها.
+    </div>
+
+    <!-- ملخص المكافآت -->
+    <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
+        <div class="col">
+            <div class="card text-white bg-primary h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">إجمالي الدعوات</h5>
+                    <p class="card-text display-6">{{ total_referrals }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-success h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">إجمالي المكافآت المكتسبة</h5>
+                    <p class="card-text display-6">{{ total_bonus|floatformat:2 }} $</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-warning h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">كود الدعوة الخاص بك</h5>
+                    <p class="card-text display-6">{{ request.user.profile.invite_code }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- قسم الدعوة -->
+{% if user.is_authenticated %}
+<div class="container py-5 text-center">
+  <h2 class="mb-4">كود الدعوة الخاص بك</h2>
+  <div class="bg-light p-4 rounded shadow-sm">
+    <h3 class="text-primary" id="inviteCode">{{ user.profile.invite_code }}</h3>
+    <p>انسخ الكود وشاركه مع أصدقائك لتحصل على مكافآت عند انضمامهم.</p>
+    <button onclick="copyCode()" class="btn btn-outline-primary mt-2">
+      <i class="fa-solid fa-copy"></i> نسخ الكود
+    </button>
+  </div>
+</div>
+<script>
+function copyCode() {
+  var code = document.getElementById("inviteCode").innerText;
+  navigator.clipboard.writeText(code);
+  alert("تم نسخ الكود بنجاح!");
+}
+</script>
+{% endif %}
+<!-- نهاية الدعوة -->
+    <!-- جدول الدعوات -->
+    <div class="card mt-4">
+        <div class="card-header bg-dark text-white">
+            <h5>تفاصيل الدعوات</h5>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-hover text-center align-middle">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>#</th>
+                        <th>المستخدم المدعو</th>
+                        <th>المكافأة</th>
+                        <th>الوصف</th>
+                        <th>تاريخ التسجيل</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bonus in referral_bonuses %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ bonus.referred_user.username }}</td>
+                        <td>{{ bonus.amount }} $</td>
+                        <td>{{ bonus.description }}</td>
+                        <td>{{ bonus.created_at|date:"Y-m-d H:i" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-muted">لا توجد دعوات حتى الآن.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock sheri %}

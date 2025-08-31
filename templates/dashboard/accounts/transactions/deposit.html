@@ -1,0 +1,84 @@
+{% extends "dashboard_base.html" %}
+{% block sheri %}
+<div class="container mt-4">
+
+    <h2 class="mb-4">💰 الإيداع</h2>
+
+    <!-- بطاقة المحفظة -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body text-center">
+            
+            <h5 class="mb-2">عنوان محفظتك:</h5>
+            <p class="text-monospace fw-bold">{{ wallet.address }}</p>
+
+            <p class="text-muted mb-3">
+                أرسل <strong>USDT TRC20</strong> إلى العنوان أعلاه.  
+                بعد التحويل، سيظهر الإيداع هنا عند التأكيد.
+            </p>
+
+            <!-- QR Code -->
+            <div class="d-flex justify-content-center">
+                <img src="data:image/png;base64,{{ qr_code }}" 
+                     alt="QR Code" 
+                     class="mb-3 border rounded shadow-sm" 
+                     style="width:200px; height:200px;">
+            </div>
+
+            <p class="text-muted">
+                امسح الـ QR لتحويل USDT TRC20 مباشرة إلى عنوانك.
+            </p>
+            <a href="" class="btn btn-warning btn-lg mb-3">تحقق من الرصيد</a>
+
+            <p class="text-muted">
+                بعد التحويل انتظر دقائق واضغط على زر "تحقق من الرصيد"
+            </p>
+        </div>
+    </div>
+
+    <!-- سجل الإيداعات -->
+    <h3 class="mb-3">📜 سجل الإيداعات</h3>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>المبلغ</th>
+                    <th>الحالة</th>
+                    <th>تاريخ الإنشاء</th>
+                    <th>تاريخ التأكيد</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dep in deposits %}
+                <tr>
+                    <td>{{ dep.amount }} USDT</td>
+                    <td>
+                        {% if dep.status == "pending" %}
+                            <span class="badge bg-warning">قيد الانتظار</span>
+                        {% elif dep.status == "confirmed" %}
+                            <span class="badge bg-success">تم التأكيد</span>
+                        {% else %}
+                            <span class="badge bg-danger">مرفوض</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ dep.created_at|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        {% if dep.confirmed_at %}
+                            {{ dep.confirmed_at|date:"Y-m-d H:i" }}
+                        {% else %}
+                            ---
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">
+                        لا يوجد إيداعات حتى الآن
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

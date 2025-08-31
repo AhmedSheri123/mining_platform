@@ -1,0 +1,39 @@
+{% extends "dashboard_base.html" %}
+{% load i18n %}
+{% block sheri %}
+<div class="container p-4">
+
+    <main>
+        <h2 class="display-6 text-center mb-4 py-4">الاجهزة المتوفرة</h2>
+
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+            
+            {% for device in devices %}
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                    <div class="card-header py-3 text-bg-primary border-primary">
+                        <h4 class="my-0 fw-normal">{{device.name}}</h4>
+                    </div>
+                    <div class="card-body">
+                        <img src="{{device.image.url}}" alt="" class="w-100 rounded-3 mb-3">
+                        <h1 class="card-title pricing-card-title">{{device.daily_profit_from}} <small class="text-body-secondary fw-light fs-5">الى</small> {{device.daily_profit_to}} $<small
+                                class="text-body-secondary fw-light fs-5 d-block">/ربح يومي</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li class="mb-3">{{device.desc}}</li>
+                            <li>سرعة التجزئة {{device.hashrate}} MH/s</li>
+                            <li>صرف الطاقة {{device.wattage}} Wat/h</li>
+                            <li>العمر التقريبي {{device.age}} سنوات عمل</li>
+                            <li>سعر الجهاز {{device.price}}$</li>
+                        </ul> <a href="{% url 'buy_device' device.id %}" class="w-100 btn btn-lg btn-primary">شراء</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+
+        </div>
+        
+    </main>
+    
+</div>
+{% endblock sheri %}

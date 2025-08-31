@@ -1,0 +1,179 @@
+{% extends "management_base.html" %}
+{% load static %}
+{% block sheri %}
+
+<div class="container p-4">
+
+    <div class="alert alert-info" role="alert">
+        👤 معلومات المستخدم: <strong>{% if user_obj.profile.get_is_verified %} <i class="bi bi-check-circle-fill text-success"></i> {% else %} <i class="bi bi-x-circle-fill text-danger"></i> {% endif %} {{ user_obj.username }}</strong> | 📧 {{ user_obj.email }}
+    </div>
+    
+
+    {% if user_obj.profile.img_base64 %}  
+    <img src="{{user_obj.profile.img_base64}}" alt="" width="300" height="300" class="rounded-circle mx-auto d-block">
+    {% else %}
+    <img src="{% static 'img/profile_default/default-profile-img-2.png' %}" alt="" width="300" height="300" class="rounded-circle mx-auto d-block">
+    {% endif %}  
+
+    <h5>إحصائيات المستخدم</h5>
+    <div class="py-3 row row-cols-2 justify-content-center justify-content-md-between">
+
+        <div class="col card rounded-4 bg-dark me-2 p-2 mt-2 text-white" style="width: 15rem;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">إجمالي الرصيد</h6>
+                <h2 class="mt-4">
+                    <i class="bi bi-cash-stack"></i>
+                    {{ profile.balance|floatformat:2 }} $
+                </h2>
+            </div>
+        </div>
+
+        <div class="col card rounded-4 bg-primary me-2 p-2 mt-2 text-white" style="width: 15rem;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">إجمالي الأرباح</h6>
+                <h2 class="mt-4">
+                    <i class="bi bi-cash-stack"></i>
+                    {{ total_earnings|floatformat:2 }} $
+                </h2>
+            </div>
+        </div>
+
+        <div class="col card rounded-4 bg-success me-2 p-2 mt-2 text-white" style="width: 15rem;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">إجمالي الإيداعات</h6>
+                <h2 class="mt-4">
+                    <i class="bi bi-arrow-down-circle-fill"></i>
+                    {{ total_deposits|floatformat:2 }} $
+                </h2>
+            </div>
+        </div>
+
+        <div class="col card rounded-4 bg-danger me-2 p-2 mt-2 text-white" style="width: 15rem;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">إجمالي السحوبات</h6>
+                <h2 class="mt-4">
+                    <i class="bi bi-arrow-up-circle-fill"></i>
+                    {{ total_withdrawals|floatformat:2 }} $
+                </h2>
+            </div>
+        </div>
+        <div class="col card rounded-4 bg-danger me-2 p-2 mt-2 text-white" style="width: 15rem;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">السحوبات المعلقة</h6>
+                <h2 class="mt-4">
+                    <i class="bi bi-arrow-up-circle-fill"></i>
+                    {{ total_pending_withdrawals|floatformat:2 }} $
+                </h2>
+            </div>
+        </div>
+        <div class="col card rounded-4 bg-warning me-2 p-2 mt-2 text-white" style="width: 15rem;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">إجمالي الاجهزة</h6>
+                <h2 class="mt-4">
+                    <i class="bi bi-hdd-stack-fill"></i>
+                    {{ total_devices }} 
+                </h2>
+            </div>
+        </div>
+
+        <div class="col card rounded-4 bg-dark me-2 p-2 mt-2 text-white" style="width: 15rem;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">تاريخ الانضمام</h6>
+                <h2 class="mt-4">
+                    <i class="bi bi-calendar-check-fill"></i>
+                    {{ user_obj.date_joined|date:"Y-m-d" }}
+                </h2>
+            </div>
+        </div>
+
+    </div>
+
+
+<h5 class="mt-4">أجهزة المستخدم</h5>
+<div class="tabel-box">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>معرّف الجهاز</th>
+        <th>الهاش</th>
+        <th>درجة الحرارة</th>
+        <th>الحالة</th>
+        <th>الأرباح</th>
+        <th>الإجراءات</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for device in devices %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ device.device_id }}</td>
+        <td>{{ device.hashrate }} MH/s</td>
+        <td>{{ device.temperature }} °C</td>
+        <td>
+    <span class="badge {% if device.status == 'running' %}bg-success
+                        {% elif device.status == 'stopped' %}bg-danger
+                        {% else %}bg-warning{% endif %}"
+          id="status-{{ device.id }}">
+        {{ device.get_status_display }}
+    </span>
+        </td>
+        <td>{{ device.earnings }} $</td>
+
+<td>
+    {% for key, label in device.STATUS_CHOICES %}
+        <button class="btn btn-sm btn-outline-primary change-status-btn"
+                data-device="{{ device.id }}"
+                data-status="{{ key }}">
+            {{ label }}
+        </button>
+    {% endfor %}
+    <a href="" class="btn btn-sm btn-danger" onclick="return confirm('هل تريد حذف هذا الجهاز؟')">حذف</a>
+</td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+
+
+<script>
+document.querySelectorAll('.change-status-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const deviceId = this.dataset.device;
+        const newStatus = this.dataset.status;
+
+        fetch("{% url 'change_device_status' %}", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: `device_id=${deviceId}&new_status=${newStatus}`
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success){
+                const statusBadge = document.getElementById(`status-${deviceId}`);
+                statusBadge.textContent = data.status.charAt(0).toUpperCase() + data.status.slice(1);
+                
+                if(data.status == 'running') {
+                    statusBadge.className = 'badge bg-success';
+                } else if(data.status == 'stopped') {
+                    statusBadge.className = 'badge bg-danger';
+                } else {
+                    statusBadge.className = 'badge bg-warning';
+                }
+            } else {
+                alert(data.message);
+            }
+        });
+    });
+});
+</script>
+
+{% endblock sheri %}

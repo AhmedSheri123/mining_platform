@@ -1,0 +1,215 @@
+{% extends "dashboard_base.html" %}
+
+{% block sheri %}
+<!-- <div class="bg-primary p-3">
+    <a href="{% url 'AddService' %}" class="btn btn-light">Cansel Project</a>
+</div>
+ -->
+<!-- Project Form -->
+<div class="container px-4 px-md-5 py-3">
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 fw-normal text-body-emphasis">Plans</h1>
+        <p class="fs-5 text-body-secondary">
+          {{user_service.service.title}}
+        </p>
+    </div>
+
+
+
+    <main>
+        <div class="text-center mb-3">
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" onclick="hidePrice('1')" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                <label class="btn btn-outline-dark" for="btnradio1">Monthly</label>
+              
+                <input type="radio" class="btn-check" onclick="hidePrice('2')" name="btnradio" id="btnradio2" autocomplete="off">
+                <label class="btn btn-outline-dark" for="btnradio2">yearly</label>
+            </div>
+        </div>
+
+
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        {% for plan in plans_data %}
+
+          <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm {% if plan.theme.type == 'premium' %} border-{{plan.theme.theme}} {% endif %}">
+              <div class="card-header py-3 {% if plan.theme.type == 'premium' %} text-bg-{{plan.theme.theme}} border-{{plan.theme.theme}} {% endif %}">
+                <h4 class="my-0 fw-normal">{{plan.title}}</h4>
+              </div>
+              <div class="card-body">
+                <div class="monthlyPrice">
+                    <h1 class="card-title pricing-card-title">{% if plan.price.monthly.value == 0 %}Free{% else %}${{plan.price.monthly.value}}{%endif%}<small class="text-body-secondary fw-light">/mo</small></h1>
+                    <p class="text-success">{% if plan.price.monthly.discont != 0 %}{{plan.price.monthly.discont}}% Discounted, Save ${{plan.price.monthly.save_value}}{%endif%}</p>
+                </div>
+                <div class="yearlyPrice d-none">
+                    <h1 class="card-title pricing-card-title">{% if plan.price.yearly.value == 0 %}Free{% else %}${{plan.price.yearly.value}}{%endif%}<small class="text-body-secondary fw-light">/ye</small></h1>
+                    <p class="text-success">{% if plan.price.yearly.discont != 0 %}{{plan.price.yearly.discont}}% Discounted, Save ${{plan.price.yearly.save_value}}{%endif%}</p>
+                </div>
+
+                <ul class="list-unstyled mt-3 mb-4 text-start">
+                    {% for feature in plan.features %}
+                    <li class="d-flex justify-content-between">
+
+                      <span class="mx-3">
+                        {% if feature.type == 'num' %}
+                            {{feature.value}}
+                        {% elif feature.type == 'bool' %}
+                            {% if feature.value %}
+                                <i class="bi bi-check"></i>
+                            {% else %}
+                                <i class="bi bi-x"></i>
+                            {% endif %}
+                        {% endif %}
+                      </span>
+                      <span>
+                          {{feature.name}}
+                      </span>
+                    </li>
+                    {% endfor %}
+
+
+                </ul>
+                <button type="button" onclick="select_plan(this)" data-serviceid="{{plan.id}}" class="w-100 btn btn-lg {% if plan.theme.type == 'premium' or plan.theme.type == 'pro' %} btn-{{plan.theme.theme}} {% else %} btn-outline-{{plan.theme.theme}} {% endif %}">Select</button>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+
+        <!-- Progress -->
+        <div class="mx-1 mx-md-5 mb-5 py-4">
+          <h5 class="text-center">
+            <i class="bi bi-signpost-2"></i>
+            Progress</h5>
+          <div class="row row-cols-2 row-cols-md-4 justify-content-md-between g-4 text-center text-black">
+              <div class="col">
+                  <button type="button" class="btn btn-outline-success px-3 rounded-4 active">
+                      <i class="bi bi-1-square fs-5"></i>
+                  </button>
+                  <span class="fw-bold d-block text-success">
+                      <i class="bi bi-patch-check-fill"></i>
+                      Create Project</span>
+              </div>
+              <div class="col">
+                  <button type="button" class="btn btn-outline-dark px-3 rounded-4 active">
+                      <i class="bi bi-2-square fs-5"></i>
+                  </button>
+                  <span class="fw-bold d-block">
+                      <i class="bi bi-hourglass-split"></i>
+                      Choose Plan</span>
+              </div>
+              <div class="col">
+                  <button type="button" class="btn btn-outline-dark px-3 rounded-4">
+                      <i class="bi bi-3-square fs-5"></i>
+                  </button>
+                  <span class="fw-bold d-block">
+                      <i class="bi bi-patch-exclamation"></i>
+                      Project Settings</span>
+              </div>
+              <div class="col">
+                  <button type="button" class="btn btn-outline-dark px-3 rounded-4">
+                      <i class="bi bi-4-square fs-5"></i>
+                  </button>
+                  <span class="fw-bold d-block">
+                      <i class="bi bi-patch-exclamation"></i>
+                      Done</span>
+              </div>
+          </div>
+      </div>
+      <!-- End Progress -->
+        
+        <form action="" method="post" id="selected_plan_form">
+            {% csrf_token %}
+            <input type="hidden" name="plan_scope" id="plan_scope" value="1">
+            <input type="hidden" name="selected_service_id" id="selected_service_id">
+        </form>
+    
+        <h2 class="display-6 text-center mb-4">Compare plans</h2>
+    
+        <div class="table-responsive">
+          <table class="table text-center">
+            <thead>
+              <tr>
+                <th style="width: 34%;" class="text-start">Plan</th>
+                {% for plan in plans_data %}
+                <th style="width: 22%;">{{plan.title}}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for plan_features in plans_data.0.features %}
+              <tr>
+                <th scope="row" class="text-start">{{plan_features.name}}</th>
+                {% for plan in plans_data %}
+                {% for feature in plan.features %}
+                {% if plan_features.name == feature.name %}
+                  {% if feature.type == 'num' %}
+                      <td>{{feature.value}}</td>
+                  {% elif feature.type == 'bool' %}
+                      {% if feature.value %}
+                      <td><i class="bi bi-check"></i></td>
+
+                      {% else %}
+                      <td><i class="bi bi-x"></i></td>
+                      {% endif %}
+                  {% endif %}
+                {% endif %}
+                {% endfor %}
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </main>
+
+      <div class="py-4">
+        <h5>Multi Plans</h5>
+        <p>
+          Choose from subscription plans designed to meet your needs and benefit from powerful features that simplify your operations and help you get the most out of our integrated system. Whether you manage a small business or a large organization, you'll find the perfect plan that offers the best value for your investment. Start today and be confident that you're investing in a service that enhances your efficiency and ensures a smooth experience for your team.
+        </p>
+      </div>
+      
+</div>
+
+<script>
+    let selected_plan_form = document.querySelector('#selected_plan_form')
+    
+    function select_plan(obj) {
+        let selected_service_input = document.querySelector('#selected_service_id')
+        let service_id = obj.dataset.serviceid
+        console.log(service_id)
+        selected_service_input.value = service_id
+        selected_plan_form.submit()
+    }
+
+    function hidePrice(type){
+        let monthlyPrices = document.querySelectorAll('.monthlyPrice')
+        let yearlyPrices = document.querySelectorAll('.yearlyPrice')
+        let plan_scope_input = document.querySelector('#plan_scope')
+
+        plan_scope_input.value = type
+        monthlyPrices.forEach(el=> {
+            if (type == '1') {
+                if (el.classList.contains('d-none')) {
+                    el.classList.remove('d-none')
+                }
+            } else if (type == '2') {
+                el.classList.add('d-none')
+            }
+        })
+        yearlyPrices.forEach(el=> {
+            if (type == '1') {
+                el.classList.add('d-none')
+            } else if (type == '2') {
+                if (el.classList.contains('d-none')) {
+                el.classList.remove('d-none')
+            }
+            }
+        })
+
+        
+    }
+</script>
+{% endblock %}

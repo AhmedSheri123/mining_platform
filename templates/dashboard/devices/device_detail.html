@@ -1,0 +1,177 @@
+{% extends "dashboard_base.html" %}
+
+{% block sheri %}
+
+<div class="container p-4">
+<div class="card" style="width: 22rem;">
+  <img src="{{ my_device.device.image.url }}" class="card-img-top" alt="{{ my_device.device.name }}">
+  <div class="card-body">
+    <h5 class="card-title">{{ my_device.device.name }}</h5>
+    <p class="card-text">{{ my_device.device.desc }}</p>
+
+    <ul class="list-group mt-3 mb-3">
+      <li class="list-group-item">💰 الأرباح: <span id="earnings">{{my_device.earnings}}</span></li>
+      <li class="list-group-item">⚡ الاستهلاك: <span id="wattage">{{my_device.wattage}}</span></li>
+      <li class="list-group-item">🔥 الهامش: <span id="hashrate">{{my_device.hashrate}}</span></li>
+      <li class="list-group-item">⏳ الحرارة: <span id="temperature">{{my_device.temperature}}</span></li>
+    </ul>
+
+    <div>
+        <!-- زر لفتح تفاصيل المرحلة -->
+        <button type="button" class="btn btn-primary" id="show-next-stage" data-device-id="{{ my_device.id }}">
+            عرض المرحلة القادمة
+        </button>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+
+
+
+<script>
+function fetchDeviceData() {
+  fetch(`/dashboard/devices/detail/{{ my_device.id }}/`)
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("earnings").innerText = data.earnings;
+      document.getElementById("wattage").innerText = data.wattage + " W";
+      document.getElementById("hashrate").innerText = data.hashrate + " MH/s";
+      document.getElementById("temperature").innerText = data.temperature + " °C";
+    });
+}
+
+// تحديث كل ثانية
+setInterval(fetchDeviceData, 1000);
+
+// تحميل مباشر عند فتح الصفحة
+fetchDeviceData();
+</script>
+
+
+
+
+
+
+
+<!-- Modal: المرحلة القادمة -->
+<div class="modal fade" id="nextStageModal" tabindex="-1" aria-labelledby="nextStageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+      <!-- رأس المودال -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="nextStageModalLabel">تفاصيل المرحلة القادمة</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+      
+      <!-- جسم المودال -->
+      <div class="modal-body">
+
+        <div id="next-done-warning" class="alert alert-warning mt-3" style="display:none;">
+          لقد اكملت جميع مراحل هذا الجهاز يمكنك سحب ارباحك الان او تشغيل جهاز اخر والحصول على ارباح اكثر بنقر على زر تشغيل الجهاز
+        </div>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between">
+            <strong>الجهاز:</strong> <span id="stage-device"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <strong>المرحلة:</strong> <span id="stage-number"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <strong>الطاقة المطلوبة:</strong> <span id="energy-required"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <strong>الأرباح المتوقعة:</strong> <span id="profit-after"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <strong>الربح الصافي:</strong> <span id="clear-profit" class="badge bg-success"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <strong>رصيدك الحالي:</strong> <span id="current-balance" class="badge bg-warning"></span>
+          </li>
+        </ul>
+        <div id="balance-warning" class="alert alert-danger mt-3" style="display:none;">
+          رصيدك غير كافي لتشغيل هذه الجهاز
+        </div>
+
+
+<!-- Progress -->
+<div class="mt-3">
+  <label for="stage-progress" class="form-label">
+    التقدم في المراحل: <span id="current-stage"></span>  <span id="total-stages"></span>
+  </label>
+  <div class="progress" style="height: 25px;">
+    <div id="stage-progress" class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
+         role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+      0%
+    </div>
+  </div>
+</div>
+
+
+      </div>
+      
+
+
+
+
+
+      <!-- تذييل المودال -->
+      <div class="modal-footer">
+        <a href="{% url 'next_stage' my_device.id %}" class="btn btn-success" id="start-next-stage">تشغيل الجهاز</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+document.getElementById('show-next-stage').addEventListener('click', function() {
+    let deviceId = this.dataset.deviceId;
+    fetch(`/dashboard/devices/device/${deviceId}/next-stage/`)
+        .then(response => response.json())
+        .then(data => {
+            if(data.error){
+                alert(data.error);
+                return;
+            }
+            document.getElementById('stage-device').innerHTML = `${data.device_name} <img src="${data.device_img}" class="rounded" width="100">`;
+            document.getElementById('stage-number').textContent = data.stage;
+            document.getElementById('energy-required').textContent = `${data.energy_required}$`;
+            document.getElementById('profit-after').textContent = `${data.profit_after}$`;
+            document.getElementById('clear-profit').textContent = `${data.clear_profit}$`;
+            document.getElementById('current-balance').textContent = `${data.current_balance}$`;
+            document.getElementById('stage-progress').textContent = `${data.progress}%`;
+            document.getElementById('stage-progress').style.width=`${data.progress}%`;
+
+            if(!data.can_afford){
+                document.getElementById('balance-warning').style.display = 'block';
+                document.getElementById('start-next-stage').disabled = true;
+            } else {
+                document.getElementById('balance-warning').style.display = 'none';
+                document.getElementById('start-next-stage').disabled = false;
+            }
+
+            if(data.next_done_warning){
+                document.getElementById('next-done-warning').style.display = 'block';
+            } else {
+                document.getElementById('next-done-warning').style.display = 'none';
+            }
+
+            // عرض الـ Modal
+            let modal = new bootstrap.Modal(document.getElementById('nextStageModal'));
+            modal.show();
+        });
+});
+</script>
+
+{% endblock sheri %}

@@ -1,0 +1,20 @@
+sudo nano /etc/systemd/system/celery.service
+=======
+
+[Unit]
+Description=Celery Worker
+After=network.target
+
+[Service]
+Type=forking
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/mining_platform
+Environment="PATH=/var/www/mining_platform/venv/bin"
+ExecStart=/var/www/mining_platform/venv/bin/celery -A mining_platform multi start worker --loglevel=info --logfile=/tmp/celery.log --pidfile=/tmp/celery.pid
+ExecStop=/var/www/mining_platform/venv/bin/celery -A mining_platform multi stopwait worker --pidfile=/tmp/celery.pid
+ExecReload=/var/www/mining_platform/venv/bin/celery -A mining_platform multi restart worker --pidfile=/tmp/celery.pid
+
+[Install]
+WantedBy=multi-user.target
+
