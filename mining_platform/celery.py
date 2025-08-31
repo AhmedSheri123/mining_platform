@@ -12,6 +12,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'update-every-5-seconds': {
         'task': 'devices.tasks.update_device_earnings',
-        'schedule': 2.0,  # 5 ثواني
+        'schedule': 1.0,  # 5 ثواني
     },
 }
