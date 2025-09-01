@@ -2,11 +2,11 @@
 
 {% block sheri %}
 
-<div class="container p-3">
-    <div class="card mb-4">
-        <div class="card-body">
-            <h4 class="card-title">رصيدك الحالي</h4>
-            <p class="card-text display-6" id="balance" >{{ request.user.profile.balance|floatformat:2 }} USDT</p>
+<div class="container p-3 mt-5 pt-5">
+    <div class="card mb-4 fixed-top m-3">
+        <div class="card-body py-2">
+            <h4 class="card-title fs-5">رصيدك الحالي</h4>
+            <small class="card-text " id="balance" >{{ request.user.profile.balance|floatformat:2 }} USDT</small>
         </div>
     </div>
 
