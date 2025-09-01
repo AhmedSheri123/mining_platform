@@ -84,6 +84,7 @@ def stage_data(request, device_id):
     
     return JsonResponse(
         {
+            "balance": round(request.user.profile.balance, 2),
             'hashrate':device.hashrate,
             'temperature':device.temperature,
             'wattage':device.wattage,

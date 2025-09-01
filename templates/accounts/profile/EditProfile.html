@@ -137,7 +137,11 @@ $(document).ready(function(){
         $uploadCrop.croppie('result', { type: 'canvas', size: 'viewport' }).then(function (resp) {
             $('#userprofile-avatar').val(resp);
             $('#cropped-result img').attr('src',resp);
+
+            
             $('#cropImagePop').modal('hide');
+            document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+
         });
     });
 });

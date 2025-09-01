@@ -13,15 +13,16 @@
     {% block links %}
     {% endblock links %}
   </head>
-  <body >
+  <body class="">
     <div class="d-flex ">
-      {% include "parts/dashboard/sidebar.html" %}
+      {% comment %} {% include "parts/dashboard/sidebar.html" %} {% endcomment %}
       <div class="content-main-box w-100" style="height:100vh;">
-        {% include "parts/dashboard/navbar.html" %}
+        {% comment %} {% include "parts/dashboard/navbar.html" %} {% endcomment %}
         {% block sheri %}
         {% endblock sheri %}
       </div>
     </div>
+    {% include "parts/dashboard/bottombar.html" %}
 
     <div class="toast-container start-0 p-3" style="position: fixed; bottom: 40px;" id="toast-box">
     </div>

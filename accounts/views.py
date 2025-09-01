@@ -19,6 +19,9 @@ from .utils import RandomDigitsGen
 from django.db import models
 from devices.models import MyDeviceModel
 
+def Main(request):
+    return render(request, 'accounts/main.html')
+
 def Signup(request):
     user_form = UserSignUpModelForm()
 
@@ -170,7 +173,6 @@ def transactions(request):
         "balance": user.profile.balance,
     }
     return render(request, "dashboard/accounts/transactions/transactions.html", context)
-
 
 
 

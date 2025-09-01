@@ -1,40 +1,40 @@
-const offcanvasBtn = document.querySelector('.offcanvas-open-close')
-const offcanvasBtnIco = document.querySelector('.offcanvas-open-close i')
-const offcanvasSidbar = document.querySelector('.offcanvas-sidbar')
-const sidbarLinks = document.querySelectorAll('.offcanvas-sidbar .nav-link')
-const pathname = window.location.pathname
+// const offcanvasBtn = document.querySelector('.offcanvas-open-close')
+// const offcanvasBtnIco = document.querySelector('.offcanvas-open-close i')
+// const offcanvasSidbar = document.querySelector('.offcanvas-sidbar')
+// const sidbarLinks = document.querySelectorAll('.offcanvas-sidbar .nav-link')
+// const pathname = window.location.pathname
 
-sidbarLinks.forEach(el => {
-    if (pathname == el.pathname) {
-        el.classList.add('active')
-    }
-});
+// sidbarLinks.forEach(el => {
+//     if (pathname == el.pathname) {
+//         el.classList.add('active')
+//     }
+// });
 
 
-function Hideffcanvas() {
-    offcanvasSidbar.classList.remove('show')
-    offcanvasSidbar.classList.add('hide')
-    offcanvasBtnIco.classList.remove('bi-arrow-bar-left')
-    offcanvasBtnIco.classList.add('bi-arrow-bar-right')
-}
-function offcanvasOpenClose() {
+// function Hideffcanvas() {
+//     offcanvasSidbar.classList.remove('show')
+//     offcanvasSidbar.classList.add('hide')
+//     offcanvasBtnIco.classList.remove('bi-arrow-bar-left')
+//     offcanvasBtnIco.classList.add('bi-arrow-bar-right')
+// }
+// function offcanvasOpenClose() {
     
-    if (offcanvasSidbar.classList.contains('show')) {
-        Hideffcanvas()
-    } else if (offcanvasSidbar.classList.contains('hide')) {
-        offcanvasSidbar.classList.remove('hide')
-        offcanvasBtnIco.classList.remove('bi-arrow-bar-right')
-        offcanvasBtnIco.classList.add('bi-arrow-bar-left')
+//     if (offcanvasSidbar.classList.contains('show')) {
+//         Hideffcanvas()
+//     } else if (offcanvasSidbar.classList.contains('hide')) {
+//         offcanvasSidbar.classList.remove('hide')
+//         offcanvasBtnIco.classList.remove('bi-arrow-bar-right')
+//         offcanvasBtnIco.classList.add('bi-arrow-bar-left')
 
-    }
-}
+//     }
+// }
 
-offcanvasBtn.addEventListener('click', offcanvasOpenClose);
-window.onresize = Hideffcanvas;
+// offcanvasBtn.addEventListener('click', offcanvasOpenClose);
+// window.onresize = Hideffcanvas;
 
-if (window.screen.width <= 578) {
-    Hideffcanvas()
-}
+// if (window.screen.width <= 578) {
+//     Hideffcanvas()
+// }
 
 
 
@@ -107,24 +107,24 @@ async function fetchAsync (url) {
   }
 
 
-// Notifications Messages Popover
-$(document).ready(function() {
-  var optionsNoti = {
-      sanitize: false,
-      html: true,
-      title: "الاشعارات",
-      customClass: 'MessagesPopover',
-      //html element
-      //content: $("#popover-content")
-      content: $('[data-name="popover-content-noti"]').html(),
-      //Doing below won't work. Shows title only
-      //content: $("#popover-content").html()
+// // Notifications Messages Popover
+// $(document).ready(function() {
+//   var optionsNoti = {
+//       sanitize: false,
+//       html: true,
+//       title: "الاشعارات",
+//       customClass: 'MessagesPopover',
+//       //html element
+//       //content: $("#popover-content")
+//       content: $('[data-name="popover-content-noti"]').html(),
+//       //Doing below won't work. Shows title only
+//       //content: $("#popover-content").html()
       
-      fallbackPlacements : ['bottom']
-  }
-  var exampleElnoti = document.getElementById('noti')
-  var popover = new bootstrap.Popover(exampleElnoti, optionsNoti)
-})
+//       fallbackPlacements : ['bottom']
+//   }
+//   var exampleElnoti = document.getElementById('noti')
+//   var popover = new bootstrap.Popover(exampleElnoti, optionsNoti)
+// })
 
 
 // read all notifi msgs

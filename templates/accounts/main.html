@@ -1,0 +1,122 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+{% load i18n %}
+{% block links %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" />
+{% endblock links %}
+{% block sheri %}
+
+<div class="bg-primary p-3 py-5">
+
+  <div class="bg-white p-3 rounded shadow-sm text-body-secondary mb-3 col-sm-6 col-md-4 mx-auto ms-sm-0">
+    <div class="dropdown d-flex align-items-center justify-content-between">
+      
+      <!-- العنصر القابل للنقر لفتح Dropdown -->
+      <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" 
+         data-bs-toggle="dropdown" aria-expanded="false">
+        {% if user.profile.img_base64 %}
+          <img src="{{user.profile.img_base64}}" alt="" width="46" height="46" class="rounded-circle me-2">
+        {% else %}
+          <img src="{% static 'img/profile_default/default-profile-img-2.png' %}" alt="" width="46" height="46" class="rounded-circle me-2">
+        {% endif %}
+        <div class="text-start">
+          <p class="mb-1 text-dark fw-bold text-wrap">{{ request.user.username }}</p>
+          <span class="bg-primary rounded d-inline px-2 py-1 text-white">{{request.user.profile.balance|floatformat:2 }}$</span>
+        </div>
+      </a>
+
+      <!-- زر منفصل -->
+      <a href="{% url 'Logout' %}" class="bg-body-tertiary btn btn-light px-2 py-1 ms-2">
+        <i class="bi bi-door-open-fill"></i>
+      </a>
+
+      <!-- قائمة Dropdown -->
+      <ul class="dropdown-menu dropdown-menu-dark shadow">
+        <li><a class="dropdown-item" href="{% url 'my_devices' %}">ابداء التعدين...</a></li>
+        <li><a class="dropdown-item" href="{% url 'EditProfile' %}">ملف الشخصي</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'Logout' %}">تسجيل الخروج</a></li>
+      </ul>
+      
+    </div>
+  </div>
+
+
+
+  <div class="row text-center g-3">
+
+    <!-- زر 1 -->
+    <div class="col-4 col-sm-2">
+      <a href="{% url 'referral_dashboard' %}" class="btn btn-light d-flex flex-column align-items-center p-3 shadow-sm rounded w-100">
+        <i class="bi bi-house-door-fill fs-3 mb-1"></i>
+        <small>المكافئات</small>
+      </a>
+    </div>
+
+
+    <!-- زر 3 -->
+    <div class="col-4 col-sm-2">
+      <a href="{% url 'transactions' %}" class="btn btn-light d-flex flex-column align-items-center p-3 shadow-sm rounded w-100">
+        <i class="bi bi-arrow-left-right fs-3 mb-1"></i>
+        <small>سحب</small>
+      </a>
+    </div>
+
+    <!-- زر 4 -->
+    <div class="col-4 col-sm-2">
+      <a href="{% url 'deposit' %}" class="btn btn-light d-flex flex-column align-items-center p-3 shadow-sm rounded w-100">
+        <i class="bi bi-wallet2 fs-3 mb-1"></i>
+        <small>إيداع</small>
+      </a>
+    </div>
+
+  </div>
+
+
+
+</div>
+
+
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+  <h6 class="border-bottom pb-2 mb-3">الوصول إلينا</h6>
+
+  <!-- تلغرام -->
+  <div class="d-flex align-items-center text-body-secondary mb-3">
+    <i class="bi bi-telegram fs-3 text-primary me-3"></i>
+    <div class="w-100 border-bottom pb-2">
+      <div class="d-flex justify-content-between align-items-center">
+        <strong>تلغرام</strong>
+        <a href="#" class="link-primary">عرض</a>
+      </div>
+      <span class="d-block">@username</span>
+    </div>
+  </div>
+
+  <!-- فيسبوك -->
+  <div class="d-flex align-items-center text-body-secondary mb-3">
+    <i class="bi bi-facebook fs-3 text-primary me-3"></i>
+    <div class="w-100 border-bottom pb-2">
+      <div class="d-flex justify-content-between align-items-center">
+        <strong>فيسبوك</strong>
+        <a href="#" class="link-primary">عرض</a>
+      </div>
+      <span class="d-block">@username</span>
+    </div>
+  </div>
+
+  <!-- واتساب -->
+  <div class="d-flex align-items-center text-body-secondary mb-3">
+    <i class="bi bi-whatsapp fs-3 text-success me-3"></i>
+    <div class="w-100 border-bottom pb-2">
+      <div class="d-flex justify-content-between align-items-center">
+        <strong>واتساب</strong>
+        <a href="#" class="link-success">عرض</a>
+      </div>
+      <span class="d-block">@username</span>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% load static %}
+{% load i18n %}
+
+<style>
+  /* مساحة أسفل الصفحة حتى لا يغطي المحتوى الشريط */
+  body { padding-bottom: 72px; } /* ارتفاع الشريط + هامش صغير */
+  /* دعم شاشات آيفون ذات الحافة السفلية */
+  .bottom-bar {
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    backdrop-filter: saturate(150%) blur(6px);
+  }
+  .bottom-bar .nav-link {
+    font-size: .85rem;
+    line-height: 1;
+    color: var(--bs-body-color);
+  }
+  .bottom-bar .nav-link .bi {
+    font-size: 1.25rem;
+    display: block;
+    margin-bottom: .25rem;
+  }
+  .bottom-bar .nav-link.active,
+  .bottom-bar .nav-link:focus,
+  .bottom-bar .nav-link:hover {
+    color: var(--bs-primary);
+  }
+</style>
+
+<!-- المحتوى ... -->
+
+<!-- Bottom Bar -->
+<nav class="bottom-bar navbar fixed-bottom bg-body-tertiary border-top">
+  <div class="container px-3">
+    <ul class="nav justify-content-between w-100 text-center">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'dashboard' %}" data-path="/{{LANGUAGE_CODE}}/dashboard/overview">
+          <i class="bi bi-house-door"></i>
+          <span>الرئيسية</span>
+        </a>
+      </li>
+      <li class="nav-item position-relative">
+        <a class="nav-link" href="{% url 'my_devices' %}" data-path="/{{LANGUAGE_CODE}}/dashboard/devices">
+          <i class="bi bi-cpu"></i>
+          <span>الأجهزة</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link position-relative" href="{% url 'transactions' %}" data-path="/{{LANGUAGE_CODE}}/dashboard/accounts/transactions/">
+          <i class="bi bi-arrow-left-right"></i>
+          <span>سحب</span>
+          <!-- بادج تنبيهات -->
+          {% comment %} <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+            3
+            <span class="visually-hidden">تنبيهات غير مقروءة</span>
+          </span> {% endcomment %}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link position-relative" href="{% url 'deposit' %}" data-path="/{{LANGUAGE_CODE}}/dashboard/accounts/deposit/">
+          <i class="bi bi-wallet2"></i>
+          <span>أيداع</span>
+          {% comment %} <!-- بادج تنبيهات -->
+          <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+            3
+            <span class="visually-hidden">تنبيهات غير مقروءة</span>
+          </span> {% endcomment %}
+        </a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Main' %}" data-path="/{{LANGUAGE_CODE}}/dashboard/accounts/Main">
+
+                {% if user.profile.img_base64 %}
+                <img src="{{user.profile.img_base64}}" alt="" width="35" height="35" class="rounded-circle me-2">
+                {% else %}
+                <img src="{% static 'img/profile_default/default-profile-img-2.png' %}" alt="" width="35" height="35"
+                    class="rounded-circle me-2">
+                {% endif %}
+
+          <!-- <span>الملف</span> -->
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<script>
+  // تفعيل العنصر بحسب المسار الحالي
+  (function () {
+    const path = location.pathname.replace(/\/+$/, '') || '/';
+    document.querySelectorAll('.bottom-bar .nav-link').forEach(a => {
+      const target = (a.dataset.path || a.getAttribute('href') || '').replace(/\/+$/, '') || '/';
+      if (path === target || (target !== '/' && path.startsWith(target))) {
+        a.classList.add('active');
+      }
+    });
+  })();
+</script>
