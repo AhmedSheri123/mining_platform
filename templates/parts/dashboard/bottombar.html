@@ -2,28 +2,70 @@
 {% load i18n %}
 
 <style>
-  /* مساحة أسفل الصفحة حتى لا يغطي المحتوى الشريط */
-  body { padding-bottom: 72px; } /* ارتفاع الشريط + هامش صغير */
-  /* دعم شاشات آيفون ذات الحافة السفلية */
+  body { padding-bottom: 72px; }
+
   .bottom-bar {
     padding-bottom: max(8px, env(safe-area-inset-bottom));
     backdrop-filter: saturate(150%) blur(6px);
   }
+
   .bottom-bar .nav-link {
-    font-size: .85rem;
+    font-size: .75rem; /* تصغير النص قليلاً للشاشات الصغيرة */
     line-height: 1;
     color: var(--bs-body-color);
+    display: flex;
+    flex-direction: column; /* جعل الأيقونة والنص عمودياً */
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    padding: 0.25rem 0;
   }
+
+.bottom-bar .nav-item {
+  flex: 1 1 auto; /* يجعل كل عنصر ينمو ويضيق بحسب المساحة */
+  text-align: center;
+}
+
   .bottom-bar .nav-link .bi {
-    font-size: 1.25rem;
-    display: block;
-    margin-bottom: .25rem;
+    font-size: 1.2rem;
+    margin-bottom: .2rem;
   }
+
   .bottom-bar .nav-link.active,
   .bottom-bar .nav-link:focus,
   .bottom-bar .nav-link:hover {
     color: var(--bs-primary);
   }
+
+  @media (max-width: 480px) {
+    .bottom-bar .nav-link {
+      font-size: .65rem; /* تصغير إضافي للنصوص الصغيرة جداً */
+    }
+    .bottom-bar .nav-link .bi {
+      font-size: 1rem;
+    }
+  }
+
+  
+  .bottom-bar .nav-link img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* للشاشات الصغيرة */
+@media (max-width: 480px) {
+  .bottom-bar .nav-link img {
+    width: 24px;
+    height: 24px;
+    margin: 0; /* إزالة الـ margin لتفادي الانكسار */
+  }
+  .bottom-bar .nav-link span {
+    font-size: 0.6rem; /* تصغير النص */
+  }
+}
+
 </style>
 
 <!-- المحتوى ... -->
@@ -71,9 +113,9 @@
         <a class="nav-link" href="{% url 'Main' %}" data-path="/{{LANGUAGE_CODE}}/dashboard/accounts/Main">
 
                 {% if user.profile.img_base64 %}
-                <img src="{{user.profile.img_base64}}" alt="" width="35" height="35" class="rounded-circle me-2">
+                <img src="{{user.profile.img_base64}}" alt="" class="rounded-circle me-2">
                 {% else %}
-                <img src="{% static 'img/profile_default/default-profile-img-2.png' %}" alt="" width="35" height="35"
+                <img src="{% static 'img/profile_default/default-profile-img-2.png' %}" alt="" 
                     class="rounded-circle me-2">
                 {% endif %}
 
