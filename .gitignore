@@ -69,3 +69,6 @@ coverage.xml
 .pytest_cache/
 mining_platform/settings.py
 apache.txt
+celery-beat.service
+celery.service
+celery.txt

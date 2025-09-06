@@ -4,10 +4,10 @@
 
 <div class="container p-4">
 
-    <!-- تحية سريعة -->
+    {% comment %} <!-- تحية سريعة -->
     <div class="alert alert-warning" role="alert">
         أهلاً {{ request.user.username }} 👋، لمحة عن استثماراتك
-    </div>
+    </div> {% endcomment %}
 
     <div class="card mb-4">
         <div class="card-body">
@@ -18,7 +18,7 @@
 
     <!-- السحب الخارجي (USDT) -->
     <div class="card mb-4">
-        <div class="card-header">سحب / تحويل خارجي (USDT)</div>
+        <div class="card-header">سحب / تحويل خارجي (USDT TRC20)</div>
         <div class="card-body">
             <form method="post">
                 {% csrf_token %}
@@ -36,6 +36,7 @@
         </div>
     </div>
 
+    {% if request.user.is_superuser %}
     <!-- التحويل الداخلي -->
     <div class="card mb-4">
         <div class="card-header">تحويل داخلي</div>
@@ -55,7 +56,7 @@
             </form>
         </div>
     </div>
-
+{% endif %}
     <!-- سجل المعاملات -->
     <div class="card">
         <div class="card-header">سجل المعاملات</div>

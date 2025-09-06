@@ -79,10 +79,20 @@ fetchDeviceData();
 
       <!-- جسم المودال -->
       <div class="modal-body">
+<!-- تنبيه إكمال الطلبات (RTL + Bootstrap) -->
+<div dir="rtl" class="alert alert-danger small d-flex align-items-start gap-2" role="alert" id="next-done-warning">
+  <div aria-hidden="true" style="font-size:1.25rem;line-height:1">✅</div>
+  <div>
+    <strong>تهانينا!</strong> أكملت 10 طلبات. يمكنك سحب أرباحك الآن أو بدء المستوى التالي.<br>
+    <span class="fw-semibold">ملاحظة:</span> إذا بدأت المستوى التالي، فلن تتمكن من السحب إلا بعد إكمال جميع طلباته.
+    <div class="mt-2 d-flex gap-2">
+      <a href="{% url 'transactions' %}" class="btn btn-sm btn-success">سحب الأرباح</a>
+      <a href="{% url 'next_stage' my_device.id %}" class="btn btn-sm btn-primary">بدء المستوى التالي</a>
+    </div>
+  </div>
+</div>
 
-        <div id="next-done-warning" class="alert alert-warning small" style="display:none;">
-          ✅ لقد أكملت جميع مراحل هذا الجهاز. يمكنك سحب أرباحك الآن أو تشغيل جهاز آخر.
-        </div>
+
 
         <ul class="list-group list-group-flush mb-3">
           <li class="list-group-item d-flex justify-content-between">
