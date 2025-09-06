@@ -174,7 +174,7 @@ document.getElementById('show-next-stage').addEventListener('click', function() 
         document.getElementById('start-next-stage').classList.remove("disabled");
       }
 
-      document.getElementById('next-done-warning').style.display = data.next_done_warning ? 'd-flex' : 'none';
+      document.getElementById('next-done-warning').style.display = data.next_done_warning ? 'flex' : 'none';
 
       let modal = new bootstrap.Modal(document.getElementById('nextStageModal'));
       modal.show();
