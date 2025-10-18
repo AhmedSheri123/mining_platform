@@ -155,11 +155,7 @@ document.getElementById('show-next-stage').addEventListener('click', function() 
         alert(data.error);
         return;
       }
-      if (data.stop_continue) {
-        document.getElementById('start-next-stage').classList.add("disabled")
-      } else {
-        document.getElementById('start-next-stage').classList.add("remove")
-      }
+
       document.getElementById('stage-device').innerHTML = `${data.device_name} <img src="${data.device_img}" class="rounded ms-2" width="60">`;
       document.getElementById('stage-number').textContent = data.stage;
       document.getElementById('energy-required').textContent = `${data.energy_required}$`;
@@ -181,6 +177,11 @@ document.getElementById('show-next-stage').addEventListener('click', function() 
 
       let modal = new bootstrap.Modal(document.getElementById('nextStageModal'));
       modal.show();
+      if (data.stop_continue) {
+        document.getElementById('start-next-stage').classList.add("disabled")
+      } else {
+        document.getElementById('start-next-stage').classList.add("remove")
+      }
     });
 });
 </script>
