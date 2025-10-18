@@ -54,7 +54,7 @@ class MyDeviceModel(models.Model):
     is_completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    stop_continue = models.BooleanField(default=False)
     def __str__(self):
         return f"{self.device.name} ({self.owner.username})"
 

@@ -232,17 +232,22 @@ def transactions_dashboard(request):
 @user_passes_test(is_admin)
 def approve_withdrawal(request, transaction_id):
     transaction = get_object_or_404(Transaction, id=transaction_id, transaction_type='withdraw')
+    user = transaction.user
+    profile = user.profile
     # التأكد أن الرصيد يكفي لشراء الجهاز
     if transaction.user.profile.balance < transaction.amount:
         messages.error(request, f"رصيد المستخدم غير كافي: {transaction.user.profile.balance} دولار")
         return redirect('transactions_dashboard')
 
     # خصم سعر الجهاز من رصيد المستخدم
-    transaction.user.profile.balance -= Decimal(transaction.amount)
-    transaction.user.profile.save()
+    profile.balance -= Decimal(transaction.amount)
+    profile.save()
     
     transaction.status = 'approved'
     transaction.save()
+    device = user.devices.all().first()
+    device.stop_continue = False
+    device.save()
     return redirect('transactions_dashboard')
 
 @login_required

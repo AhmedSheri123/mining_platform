@@ -83,11 +83,9 @@ fetchDeviceData();
 <div dir="rtl" class="alert alert-danger small align-items-start gap-2" role="alert" id="next-done-warning" style="display:none;">
   <div aria-hidden="true" style="font-size:1.25rem;line-height:1">✅</div>
   <div>
-    <strong>تهانينا!</strong> أكملت 10 طلبات. يمكنك سحب أرباحك الآن أو بدء المستوى التالي.<br>
-    <span class="fw-semibold">ملاحظة:</span> إذا بدأت المستوى التالي، فلن تتمكن من السحب إلا بعد إكمال جميع طلباته.
+    <strong>تهانينا!</strong> أكملت 10 طلبات. يمكنك سحب أرباحك الآن ,وبعدها بدء المستوى التالي.<br>
     <div class="mt-2 d-flex gap-2">
       <a href="{% url 'transactions' %}" class="btn btn-sm btn-success">سحب الأرباح</a>
-      <a href="{% url 'next_stage' my_device.id %}" class="btn btn-sm btn-primary">بدء المستوى التالي</a>
     </div>
   </div>
 </div>
@@ -156,6 +154,11 @@ document.getElementById('show-next-stage').addEventListener('click', function() 
       if(data.error){
         alert(data.error);
         return;
+      }
+      if (data.stop_continue) {
+        document.getElementById('start-next-stage').classList.add("disabled")
+      } else {
+        document.getElementById('start-next-stage').classList.add("remove")
       }
       document.getElementById('stage-device').innerHTML = `${data.device_name} <img src="${data.device_img}" class="rounded ms-2" width="60">`;
       document.getElementById('stage-number').textContent = data.stage;

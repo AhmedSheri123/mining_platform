@@ -98,6 +98,7 @@ def next_stage(request, device_id):
         next_stage_model = DeviceStagesModel.objects.get(device__stage=device.device.stage+1, stage=1)
         device.device = next_stage_model.device
         device.stage = 1
+        device.stop_continue = True
     else:next_stage_model = DeviceStagesModel.objects.get(device=device.device, stage=device.stage)
 
     owner = device.owner
@@ -157,6 +158,7 @@ def next_stage_detail_ajax(request, device_id):
     stage_info = {
         "stage": next_stage_model.stage,
         "progress": progress,
+        "stop_continue": device.stop_continue,
         "next_done_warning": next_done_warning,
         "device_name": next_stage_model.device.name,
         "device_img": next_stage_model.device.image.url,

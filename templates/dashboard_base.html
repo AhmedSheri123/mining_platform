@@ -4,7 +4,8 @@
 <html lang="en" dir="rtl">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1, user-scalable=no">
+
     <title>Mining Dashboard</title>
     <link href="{% static 'bootstrap/css/bootstrap.rtl.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/dashboard/base.css' %}" rel="stylesheet">
@@ -13,8 +14,8 @@
     {% block links %}
     {% endblock links %}
   </head>
-  <body class="">
-    <div class="d-flex ">
+  <body style="width:100vw; height:100vh; font-size:14px;">
+    <div class="d-flex " >
       {% comment %} {% include "parts/dashboard/sidebar.html" %} {% endcomment %}
       <div class="content-main-box w-100" style="height:100vh;">
         {% comment %} {% include "parts/dashboard/navbar.html" %} {% endcomment %}
@@ -39,5 +40,7 @@
         {% endfor %}
       })
     </script>
+
+
   </body>
 </html>
