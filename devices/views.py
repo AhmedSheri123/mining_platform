@@ -98,7 +98,7 @@ def next_stage(request, device_id):
         next_stage_model = DeviceStagesModel.objects.get(device__stage=device.device.stage+1, stage=1)
         device.device = next_stage_model.device
         device.stage = 1
-        device.stop_continue = True
+    
     else:next_stage_model = DeviceStagesModel.objects.get(device=device.device, stage=device.stage)
 
     owner = device.owner
