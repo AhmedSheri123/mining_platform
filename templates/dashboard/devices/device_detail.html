@@ -165,13 +165,14 @@ document.getElementById('show-next-stage').addEventListener('click', function() 
       document.getElementById('stage-progress').textContent = `${data.progress}%`;
       document.getElementById('stage-progress').style.width = `${data.progress}%`;
 
-      document.getElementById('next-done-warning').style.display = data.next_done_warning ? 'flex' : 'none';
+      
 
       let modal = new bootstrap.Modal(document.getElementById('nextStageModal'));
       modal.show();
 
       if (data.stop_continue) {
         document.getElementById('start-next-stage').classList.add("disabled")
+        document.getElementById('next-done-warning').style.display = data.next_done_warning ? 'flex' : 'none';
       } else if (!data.can_afford) {
         document.getElementById('balance-warning').style.display = 'block';
         document.getElementById('start-next-stage').classList.add("disabled");
