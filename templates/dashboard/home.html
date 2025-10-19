@@ -8,9 +8,9 @@
     </div> {% endcomment %}
 
     <h5>نظرة عامة</h5>
-    <div class="py-3 row row-cols-2 justify-content-center justify-content-md-between">
+    <div class="py-3 row row-cols-4 justify-content-center justify-content-md-between"  >
 
-        <div class="col card rounded-4 bg-primary me-2 p-2 mt-2 text-white" style="width: 15rem;">
+        <div class="col card rounded-4 bg-primary me-2 p-2 mt-2 text-white" style="width: 10rem;">
             <div class="card-body">
                 <h6 class="card-subtitle mb-2">إجمالي الأجهزة</h6>
                 <h2 class="mt-4">
@@ -20,7 +20,7 @@
                 اخر تحديث <strong>الان</strong>
             </div>
         </div>
-        <div class="col card rounded-4 bg-success me-2 p-2 mt-2" style="width: 15rem;">
+        <div class="col card rounded-4 bg-success me-2 p-2 mt-2" style="width: 10rem;">
             <div class="card-body text-white">
                 <h6 class="card-subtitle mb-2 ">الأرباح اليومية</h6>
                 <h2 class="mt-4 ">
@@ -31,7 +31,7 @@
                 {% comment %} last order <strong>3 days ago</strong> {% endcomment %}
             </div>
         </div>
-        <div class="col card rounded-4 bg-success-subtle me-2 p-2 mt-2" style="width: 15rem;">
+        <div class="col card rounded-4 bg-success-subtle me-2 p-2 mt-2" style="width: 10rem;">
             <div class="card-body">
                 <h6 class="card-subtitle mb-2 text-body-secondary">الأرباح الشهرية</h6>
                 <h2 class="mt-4">
@@ -43,7 +43,7 @@
         </div>
 
 
-        <div class="col card rounded-4 bg-dark me-2 p-2 mt-2" style="width: 15rem;">
+        <div class="col card rounded-4 bg-dark me-2 p-2 mt-2" style="width: 10rem;">
             <div class="card-body text-white">
                 <h6 class="card-subtitle mb-2 ">حالة الاجهزة</h6>
                 <h2 class="mt-4">
@@ -59,27 +59,7 @@
 </div>
 
 
-<!-- قسم الدعوة -->
-{% if user.is_authenticated %}
-<div class="container py-5 text-center">
-  <h2 class="mb-4">كود الدعوة الخاص بك</h2>
-  <div class="bg-light p-4 rounded shadow-sm">
-    <h3 class="text-primary" id="inviteCode">{{ user.profile.invite_code }}</h3>
-    <p>انسخ الكود وشاركه مع أصدقائك لتحصل على مكافآت عند انضمامهم.</p>
-    <button onclick="copyCode()" class="btn btn-outline-primary mt-2">
-      <i class="fa-solid fa-copy"></i> نسخ الكود
-    </button>
-  </div>
-</div>
-<script>
-function copyCode() {
-  var code = document.getElementById("inviteCode").innerText;
-  navigator.clipboard.writeText(code);
-  alert("تم نسخ الكود بنجاح!");
-}
-</script>
-{% endif %}
-<!-- نهاية الدعوة -->
+
 
 <canvas id="earningsChart"></canvas>
 
