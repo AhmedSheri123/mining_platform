@@ -13,7 +13,7 @@ import base64
 from io import BytesIO
 from django.contrib.auth import logout, login, authenticate
 from django.http import JsonResponse
-from .wallet import USDT_CONTRACT, get_trx_balance, transfer_to_master
+from .wallet import USDT_CONTRACT, get_trx_balance, transfer_to_master, transfer_trx
 from .forms import UserSignUpModelForm, LoginForm, UserEditModelForm
 from .utils import RandomDigitsGen
 from django.db import models
@@ -289,15 +289,10 @@ def check_deposits(wallet, request):
 
 def transfer_to_master_view(request, wallet_id):
     wallet = get_object_or_404(Wallet, id=wallet_id)
-    trx = get_trx_balance(wallet.address)
-    if trx > 0:
-        r = transfer_to_master(wallet)
-        print(r)
-        messages.info(request, r)
-    elif trx <=0:
-        messages.error(request, 'رصيد tron غير كافي')
-    elif trx == False:
-        messages.error(request, 'حدث مشكلة اثناء التحقق من الرصيد')
+    r = transfer_to_master(wallet, request)
+    print(r)
+    # r2 = transfer_trx(wallet, 5)
+    # print(r2)
     return redirect('wallets_list')
 
 
