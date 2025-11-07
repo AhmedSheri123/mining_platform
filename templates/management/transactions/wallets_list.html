@@ -6,13 +6,14 @@
   <div class="card-header bg-primary text-white">
     <h4>جميع المحافظ (مرتبة حسب الرصيد)</h4>
   </div>
-  <div class="card-body">
-    <table class="table table-hover text-center align-middle">
+  <div class="card-body" style="overflow-x: auto;">
+    <table class="table table-hover text-center align-middle" >
       <thead class="table-dark">
         <tr>
           <th>#</th>
           <th>المستخدم</th>
           <th>عنوان المحفظة</th>
+          <th>اجمالي الرصيد</th>
           <th>الرصيد</th>
           <th>تاريخ الإنشاء</th>
           <th>الأجراءات</th>
@@ -27,6 +28,7 @@
             {{ wallet.user.username }}</td>
           <td>{{ wallet.address }}</td>
           <td><span class="badge bg-success">{{ wallet.balance }} USDT</span></td>
+          <td><span class="badge bg-success">{{ wallet.total_balance }} USDT</span></td>
           <td>{{ wallet.created_at|date:"Y-m-d H:i" }}</td>
           <td>
             <a href="{% url 'deposit_list' wallet.id %}" class="btn btn-primary btn-sm">عرض الايداعات</a>
