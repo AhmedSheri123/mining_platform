@@ -103,7 +103,7 @@ def transfer_trx(wallet, amount):
     from_address = wallet.address
 
     txn = (
-        client.trx.transfer(from_address, 'THrngNem1motv62uWtrgrfanCX9FK6CVXZ', int(amount * 1_000_000))  # تحويل TRX
+        client.trx.transfer(from_address, 'TRyBfDBGrHMhFrbZu9zWcqYKYi41KzEYjr', int(amount * 1_000_000))  # تحويل TRX
         .memo("TRX Transfer")  # ملاحظة اختيارية
         .build()
         .sign(priv_key_obj)

@@ -129,7 +129,7 @@ class MyDeviceModel(models.Model):
             else:
                 self.status = 'done'
                 self.is_completed = True
-                # self.stop_continue = True
+                self.stop_continue = True
 
         self.save()
 
