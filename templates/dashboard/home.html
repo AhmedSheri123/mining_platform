@@ -1,4 +1,5 @@
 {% extends "dashboard_base.html" %}
+{% load static %}
 
 {% block sheri %}
 
@@ -7,12 +8,40 @@
     أهلاً {{ request.user.username }} 👋، هاي لمحة سريعة عن استثمارك اليوم
     </div> {% endcomment %}
 
-    <div class="card mb-4 fixed-top m-3">
-        <div class="card-body py-2">
-            <h4 class="card-title fs-5">رصيدك الحالي</h4>
-            <small class="card-text " id="balance" >{{ request.user.profile.balance|floatformat:2 }} USDT</small>
+
+  <div class="bg-white p-3 rounded shadow-sm text-body-secondary mb-3 col-sm-6 col-md-8 mx-auto ">
+    <div class="dropdown d-flex align-items-center justify-content-between">
+      
+      <!-- العنصر القابل للنقر لفتح Dropdown -->
+      <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" 
+         data-bs-toggle="dropdown" aria-expanded="false">
+        {% if user.profile.img_base64 %}
+          <img src="{{user.profile.img_base64}}" alt="" width="46" height="46" class="rounded-circle me-2">
+        {% else %}
+          <img src="{% static 'img/profile_default/default-profile-img-2.png' %}" alt="" width="46" height="46" class="rounded-circle me-2">
+        {% endif %}
+        <div class="text-start">
+          <p class="mb-1 text-dark fw-bold text-wrap">{{ request.user.username }}</p>
+          <span class="bg-primary rounded d-inline px-2 py-1 text-white">{{request.user.profile.balance|floatformat:2 }}$</span>
         </div>
+      </a>
+
+      <!-- زر منفصل -->
+      <a href="{% url 'Logout' %}" class="bg-body-tertiary btn btn-light px-2 py-1 ms-2">
+        <i class="bi bi-door-open-fill"></i>
+      </a>
+
+      <!-- قائمة Dropdown -->
+      <ul class="dropdown-menu dropdown-menu-dark shadow">
+        <li><a class="dropdown-item" href="{% url 'my_devices' %}">ابداء التعدين...</a></li>
+        <li><a class="dropdown-item" href="{% url 'EditProfile' %}">ملف الشخصي</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'Logout' %}">تسجيل الخروج</a></li>
+      </ul>
+      
     </div>
+  </div>
+
 
 
 
