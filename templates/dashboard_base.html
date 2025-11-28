@@ -33,9 +33,7 @@
 
     <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/dashboard/base.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css">
+
 
     <script>
       $(document).ready(function() {
@@ -44,80 +42,9 @@
         {% endfor %}
       })
 
-
-
-
-
-
-
-
-
-
-
-// جلب اسم عشوائي من Random User API
-async function getRandomName() {
-  const response = await fetch("https://randomuser.me/api/");
-  const data = await response.json();
-  // الاسم الأول + الاسم الأخير
-  return data.results[0].name.first + " " + data.results[0].name.last;
-}
-
-// دالة لتوليد رقم عشوائي بين 200 و 10000
-function randomNumGen() {
-  return Math.floor(Math.random() * (10000 - 200 + 1)) + 200;
-}
-
-// دالة رئيسية تنفذ المطلوب
-async function runToast() {
-  let name = await getRandomName();
-  let shortName = name.substring(0, 6); // أول 3 أحرف
-  let stars = "*".repeat(name.length - 6); // باقي الاسم نجوم
-  let maskedName = shortName + stars;
-
-  let amount = randomNumGen();
-
-  $.toast({
-    heading: maskedName,
-    text: `لقد سحب مبلغ قدره ${amount} دولار الان`,
-    showHideTransition: 'slide',
-    icon: 'info',
-    position: 'top-right',
-    allowToastClose: false,
-    hideAfter: 5000 // يغلق بعد 5 ثواني
-  });
-
-}
-
-// تشغيل كل 10 ثواني
-setInterval(runToast, 20000);
     </script>
 
-<style>
 
-
-/* حركة دخول من اليمين */
-@keyframes slideInRight {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-/* حركة خروج لليمين */
-@keyframes slideOutRight {
-  from { transform: translateX(0); opacity: 1; }
-  to { transform: translateX(100%); opacity: 0; }
-}
-
-/* تطبيق الحركة على التوست */
-.jq-toast-single {
-  animation: slideInRight 0.3s ease forwards;
-}
-.jq-toast-single.jq-toast-hidden {
-  animation: slideOutRight 0.3s ease forwards;
-}
-.jq-toast-wrap.top-right {
-  top: 110px !important;
-}
-</style>
 
 
   </body>
