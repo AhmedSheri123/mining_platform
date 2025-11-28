@@ -16,6 +16,7 @@ class DeviceModel(models.Model):
     age = models.IntegerField()
     consumption_unit = models.DecimalField(max_digits=12, decimal_places=2, default=0.05)
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    view_for_not_verified = models.BooleanField(default=False, help_text="عرض هذا الجهاز لغير الموثوقين")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

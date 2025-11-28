@@ -39,6 +39,15 @@
         <li><a class="dropdown-item" href="{% url 'Logout' %}">تسجيل الخروج</a></li>
       </ul>
       
+{% if user.is_authenticated %}
+{% if user.is_superuser %}
+    <a class="btn btn-primary me-2 rounded-4 ms-2" href="{% url 'management' %}">
+        لوحة التحكم المدير
+        <i class="fa-solid fa-gauge-high"></i>
+    </a>
+{% endif %}
+
+{% endif %}
     </div>
   </div>
 

@@ -51,10 +51,10 @@
   </head>
   <body >
 
-    {% include "parts/navbar.html" %}
+    {% comment %} {% include "parts/navbar.html" %} {% endcomment %}
     {% block sheri %}
     {% endblock sheri %}
-    {% include "parts/footer.html" %}
+    {% comment %} {% include "parts/footer.html" %} {% endcomment %}
 
     <div class="toast-container start-0 p-3" style="position: fixed; bottom: 40px;" id="toast-box">
     </div>

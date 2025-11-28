@@ -7,6 +7,10 @@ from devices.models import DeviceModel
 
 # Create your views here.
 def index(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    else:
+        return redirect('Login')
     devices = DeviceModel.objects.all()
     form = ContactFormModel()
     return render(request, 'pages/index.html', {'devices':devices, 'form':form})
