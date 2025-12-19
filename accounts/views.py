@@ -49,7 +49,7 @@ def Signup(request):
                     referrer_profile.save()
 
 
-                device = DeviceModel.objects.get(stage=1) if user.profile.get_is_verified else DeviceModel.objects.get(stage=1, view_for_not_verified=True)
+                device = DeviceModel.objects.filter(stage=1, view_for_not_verified=False).first() if user.profile.get_is_verified else DeviceModel.objects.filter(stage=1, view_for_not_verified=True).first()
                 MyDeviceModel.objects.create(
                     owner=user,
                     device=device,
