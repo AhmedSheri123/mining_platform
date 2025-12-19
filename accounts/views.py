@@ -17,7 +17,7 @@ from .wallet import USDT_CONTRACT, get_trx_balance, transfer_to_master, transfer
 from .forms import UserSignUpModelForm, LoginForm, UserEditModelForm
 from .utils import RandomDigitsGen
 from django.db import models
-from devices.models import MyDeviceModel
+from devices.models import MyDeviceModel, DeviceModel
 
 def Main(request):
     return render(request, 'accounts/main.html')
@@ -48,6 +48,15 @@ def Signup(request):
                     referrer_profile.invite_code = referrer_profile.get_new_invite_code
                     referrer_profile.save()
 
+
+                try:
+                    device = DeviceModel.objects.get(stage=1) if user.profile.get_is_verified  else DeviceModel.objects.get(stage=1, view_for_not_verified=True)
+                    MyDeviceModel.objects.create(
+                        owner=user,
+                        device=device,
+                        status='stopped'
+                    )
+                except:pass
 
                 ReferralBonus.objects.create(
                     referrer=referrer_profile.user,
