@@ -49,14 +49,12 @@ def Signup(request):
                     referrer_profile.save()
 
 
-                try:
-                    device = DeviceModel.objects.get(stage=1) if user.profile.get_is_verified  else DeviceModel.objects.get(stage=1, view_for_not_verified=True)
-                    MyDeviceModel.objects.create(
-                        owner=user,
-                        device=device,
-                        status='stopped'
-                    )
-                except:pass
+                device = DeviceModel.objects.get(stage=1) if user.profile.get_is_verified else DeviceModel.objects.get(stage=1, view_for_not_verified=True)
+                MyDeviceModel.objects.create(
+                    owner=user,
+                    device=device,
+                    status='stopped'
+                )
 
                 ReferralBonus.objects.create(
                     referrer=referrer_profile.user,
