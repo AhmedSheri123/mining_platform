@@ -20,7 +20,7 @@ def create_user_wallet(sender, instance, created, **kwargs):
             user=instance,
         )
         try:
-            device = DeviceModel.objects.get(stage=1) if u.is_verified  else DeviceModel.objects.get(stage=1, view_for_not_verified=True)
+            device = DeviceModel.objects.get(stage=1) if u.get_is_verified  else DeviceModel.objects.get(stage=1, view_for_not_verified=True)
             MyDeviceModel.objects.create(
                 owner=instance,
                 device=device,

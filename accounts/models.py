@@ -33,7 +33,7 @@ class UserProfile(models.Model):
     
     @property
     def get_is_verified(self):
-        r = False if not self.referred_by else self.referred_by.profile.is_verified or self.referred_by.is_superuser
+        r = False if not self.referred_by else self.referred_by.is_superuser
         return r
     
     def __str__(self):

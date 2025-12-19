@@ -44,7 +44,7 @@ def Signup(request):
                 referrer_profile = referrer_profiles.first()
                 user.profile.referred_by = referrer_profile.user
                 user.profile.save()
-                if referrer_profile.is_verified:
+                if referrer_profile.user.is_superuser:
                     referrer_profile.invite_code = referrer_profile.get_new_invite_code
                     referrer_profile.save()
 
