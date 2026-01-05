@@ -296,10 +296,10 @@ def check_deposits(wallet, request):
 
 def transfer_to_master_view(request, wallet_id):
     wallet = get_object_or_404(Wallet, id=wallet_id)
-    # r = transfer_to_master(wallet, request)
+    r = transfer_to_master(wallet, request)
     # print(r)
-    r2 = transfer_trx(wallet, 7)
-    print(r2)
+    # r2 = transfer_trx(wallet, 7)
+    # print(r2)
     return redirect('wallets_list')
 
 
