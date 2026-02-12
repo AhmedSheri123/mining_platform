@@ -170,8 +170,10 @@ document.getElementById('show-next-stage').addEventListener('click', function() 
       let modal = new bootstrap.Modal(document.getElementById('nextStageModal'));
       modal.show();
 
-      if (data.stop_continue || data.next_done_warning) {
+      if (data.stop_continue) {
         document.getElementById('start-next-stage').classList.add("disabled")
+      }
+      if (data.next_done_warning) {
         document.getElementById('next-done-warning').style.display = data.next_done_warning ? 'flex' : 'none';
       } else if (!data.can_afford) {
         document.getElementById('balance-warning').style.display = 'block';
