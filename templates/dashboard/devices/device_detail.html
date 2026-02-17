@@ -5,7 +5,7 @@
 <div class="container p-3 mt-5 pt-5">
     <div class="card mb-4 fixed-top m-3">
         <div class="card-body py-2">
-            <h4 class="card-title fs-5">رصيدك الحالي</h4>
+            <h4 class="card-title fs-5">Your current balance</h4>
             <small class="card-text " id="balance" >{{ request.user.profile.balance|floatformat:2 }} USDT</small>
         </div>
     </div>
@@ -19,19 +19,19 @@
 
 <ul class="list-group mt-3 mb-3 text-start">
   <li class="list-group-item d-flex justify-content-between">
-    <span><i class="bi bi-cash-stack text-success"></i> الأرباح</span> 
+    <span><i class="bi bi-cash-stack text-success"></i> Earnings</span> 
     <span id="earnings">{{my_device.earnings}}</span>
   </li>
   <li class="list-group-item d-flex justify-content-between">
-    <span><i class="bi bi-lightning-charge-fill text-warning"></i> الاستهلاك</span> 
+    <span><i class="bi bi-lightning-charge-fill text-warning"></i> Consumption</span> 
     <span id="wattage">{{my_device.wattage}}</span>
   </li>
   <li class="list-group-item d-flex justify-content-between">
-    <span><i class="bi bi-cpu-fill text-primary"></i> الهاش</span> 
+    <span><i class="bi bi-cpu-fill text-primary"></i> Hash</span> 
     <span id="hashrate">{{my_device.hashrate}}</span>
   </li>
   <li class="list-group-item d-flex justify-content-between">
-    <span><i class="bi bi-thermometer-half text-danger"></i> الحرارة</span> 
+    <span><i class="bi bi-thermometer-half text-danger"></i> Temperature</span> 
     <span id="temperature">{{my_device.temperature}}</span>
   </li>
 </ul>
@@ -39,7 +39,7 @@
 
       <button type="button" class="btn btn-primary w-100" 
               id="show-next-stage" data-device-id="{{ my_device.id }}">
-        عرض المرحلة القادمة
+        View next stage
       </button>
     </div>
   </div>
@@ -66,26 +66,26 @@ fetchDeviceData();
 
 
 
-<!-- Modal: المرحلة القادمة -->
+<!-- Modal: Next stage -->
 <div class="modal fade" id="nextStageModal" tabindex="-1" aria-labelledby="nextStageModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg rounded-4">
 
-      <!-- رأس المودال -->
+      <!-- Modal header -->
       <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="nextStageModalLabel">تفاصيل المرحلة القادمة</h5>
+        <h5 class="modal-title" id="nextStageModalLabel">Next stage details</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
 
-      <!-- جسم المودال -->
+      <!-- Modal body -->
       <div class="modal-body">
-<!-- تنبيه إكمال الطلبات (RTL + Bootstrap) -->
+<!-- Orders completion alert (RTL + Bootstrap) -->
 <div dir="rtl" class="alert alert-danger small align-items-start gap-2" role="alert" id="next-done-warning" style="display:none;">
   <div aria-hidden="true" style="font-size:1.25rem;line-height:1">✅</div>
   <div>
-    <strong>تهانينا!</strong> أكملت 10 طلبات. يمكنك سحب أرباحك الآن ,وبعدها بدء المستوى التالي.<br>
+    <strong>Congratulations!</strong> You completed 10 orders. You can withdraw your profits now, then start the next level.<br>
     <div class="mt-2 d-flex gap-2">
-      <a href="{% url 'transactions' %}" class="btn btn-sm btn-success">سحب الأرباح</a>
+      <a href="{% url 'transactions' %}" class="btn btn-sm btn-success">Withdraw Earnings</a>
     </div>
   </div>
 </div>
@@ -94,32 +94,32 @@ fetchDeviceData();
 
         <ul class="list-group list-group-flush mb-3">
           <li class="list-group-item d-flex justify-content-between">
-            <strong>الجهاز:</strong> <span id="stage-device"></span>
+            <strong>Device:</strong> <span id="stage-device"></span>
           </li>
           <li class="list-group-item d-flex justify-content-between">
-            <strong>المرحلة:</strong> <span id="stage-number"></span>
+            <strong>Stage:</strong> <span id="stage-number"></span>
           </li>
           <li class="list-group-item d-flex justify-content-between">
-            <strong>الطاقة المطلوبة:</strong> <span id="energy-required"></span>
+            <strong>Required energy:</strong> <span id="energy-required"></span>
           </li>
           <li class="list-group-item d-flex justify-content-between">
-            <strong>الأرباح المتوقعة:</strong> <span id="profit-after"></span>
+            <strong>Expected earnings:</strong> <span id="profit-after"></span>
           </li>
           <li class="list-group-item d-flex justify-content-between">
-            <strong>الربح الصافي:</strong> <span id="clear-profit" class="badge bg-success"></span>
+            <strong>Net profit:</strong> <span id="clear-profit" class="badge bg-success"></span>
           </li>
           <li class="list-group-item d-flex justify-content-between">
-            <strong>رصيدك الحالي:</strong> <span id="current-balance" class="badge bg-warning"></span>
+            <strong>Your current balance:</strong> <span id="current-balance" class="badge bg-warning"></span>
           </li>
         </ul>
 
         <div id="balance-warning" class="alert alert-danger small" style="display:none;">
-          ⚠️ رصيدك غير كافٍ لتشغيل هذا الجهاز.
+          ⚠️ Your balance is not enough to run this device.
         </div>
 
         <!-- Progress -->
         <label class="form-label fw-bold small">
-          التقدم في المراحل: <span id="current-stage"></span>/<span id="total-stages"></span>
+          Stage progress: <span id="current-stage"></span>/<span id="total-stages"></span>
         </label>
         <div class="progress mb-2" style="height: 25px;">
           <div id="stage-progress" 
@@ -131,13 +131,13 @@ fetchDeviceData();
 
       </div>
 
-      <!-- تذييل المودال -->
+      <!-- Modal footer -->
       <div class="modal-footer">
 <a href="{% url 'next_stage' my_device.id %}" class="btn btn-success w-100" id="start-next-stage">
-  <i class="bi bi-rocket-fill me-2"></i> تشغيل الجهاز
+  <i class="bi bi-rocket-fill me-2"></i> Run device
 </a>
 
-        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">إغلاق</button>
+        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
       </div>
 
     </div>

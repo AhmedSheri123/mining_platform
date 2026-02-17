@@ -5,15 +5,15 @@
 <div class="container p-4">
 
     <div class="alert alert-info text-center">
-        👋 مرحباً {{ request.user.username }}! هنا نظرة على دعواتك ومكافآتها.
+        👋 Hello {{ request.user.username }}! Here is an overview of your referrals and rewards.
     </div>
 
-    <!-- ملخص المكافآت -->
+    <!-- Rewards summary -->
     <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
         <div class="col">
             <div class="card text-white bg-primary h-100">
                 <div class="card-body text-center">
-                    <h5 class="card-title">إجمالي الدعوات</h5>
+                    <h5 class="card-title">Total referrals</h5>
                     <p class="card-text display-6">{{ total_referrals }}</p>
                 </div>
             </div>
@@ -21,7 +21,7 @@
         <div class="col">
             <div class="card text-white bg-success h-100">
                 <div class="card-body text-center">
-                    <h5 class="card-title">إجمالي المكافآت المكتسبة</h5>
+                    <h5 class="card-title">Total rewards earned</h5>
                     <p class="card-text display-6">{{ total_bonus|floatformat:2 }} $</p>
                 </div>
             </div>
@@ -29,21 +29,21 @@
         <div class="col">
             <div class="card text-white bg-warning h-100">
                 <div class="card-body text-center">
-                    <h5 class="card-title">كود الدعوة الخاص بك</h5>
+                    <h5 class="card-title">Your referral code</h5>
                     <p class="card-text display-6">{{ request.user.profile.invite_code }}</p>
                 </div>
             </div>
         </div>
     </div>
-<!-- قسم الدعوة -->
+<!-- Referral section -->
 {% if user.is_authenticated %}
 <div class="container py-5 text-center">
-  <h2 class="mb-4">كود الدعوة الخاص بك</h2>
+  <h2 class="mb-4">Your referral code</h2>
   <div class="bg-light p-4 rounded shadow-sm">
     <h3 class="text-primary" id="inviteCode">{{ user.profile.invite_code }}</h3>
-    <p>انسخ الكود وشاركه مع أصدقائك لتحصل على مكافآت عند انضمامهم.</p>
+    <p>Copy the code and share it with your friends to earn rewards when they join.</p>
     <button onclick="copyCode()" class="btn btn-outline-primary mt-2">
-      <i class="fa-solid fa-copy"></i> نسخ الكود
+      <i class="fa-solid fa-copy"></i> Copy code
     </button>
   </div>
 </div>
@@ -51,25 +51,25 @@
 function copyCode() {
   var code = document.getElementById("inviteCode").innerText;
   navigator.clipboard.writeText(code);
-  alert("تم نسخ الكود بنجاح!");
+  alert("Code copied successfully!");
 }
 </script>
 {% endif %}
-<!-- نهاية الدعوة -->
-    <!-- جدول الدعوات -->
+<!-- End referral section -->
+    <!-- Referrals table -->
     <div class="card mt-4">
         <div class="card-header bg-dark text-white">
-            <h5>تفاصيل الدعوات</h5>
+            <h5>Referral details</h5>
         </div>
         <div class="card-body table-responsive">
             <table class="table table-hover text-center align-middle">
                 <thead class="table-secondary">
                     <tr>
                         <th>#</th>
-                        <th>المستخدم المدعو</th>
-                        <th>المكافأة</th>
-                        <th>الوصف</th>
-                        <th>تاريخ التسجيل</th>
+                        <th>Referred user</th>
+                        <th>Reward</th>
+                        <th>Description</th>
+                        <th>Registration date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,7 +83,7 @@ function copyCode() {
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5" class="text-muted">لا توجد دعوات حتى الآن.</td>
+                        <td colspan="5" class="text-muted">No referrals yet.</td>
                     </tr>
                     {% endfor %}
                 </tbody>

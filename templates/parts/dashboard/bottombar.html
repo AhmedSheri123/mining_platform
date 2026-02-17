@@ -6,11 +6,11 @@
 
 
   .bottom-bar .nav-link {
-    font-size: .75rem; /* تصغير النص قليلاً للشاشات الصغيرة */
+    font-size: .75rem; /* Slightly reduce text for small screens */
     line-height: 1;
     color: var(--bs-body-color);
     display: flex;
-    flex-direction: column; /* جعل الأيقونة والنص عمودياً */
+    flex-direction: column; /* Make icon and text vertical */
     align-items: center;
     justify-content: center;
     white-space: nowrap;
@@ -18,7 +18,7 @@
   }
 
 .bottom-bar .nav-item {
-  flex: 1 1 auto; /* يجعل كل عنصر ينمو ويضيق بحسب المساحة */
+  flex: 1 1 auto; /* Make each item grow/shrink with available space */
   text-align: center;
 }
 
@@ -35,7 +35,7 @@
 
   @media (max-width: 480px) {
     .bottom-bar .nav-link {
-      font-size: .65rem; /* تصغير إضافي للنصوص الصغيرة جداً */
+      font-size: .65rem; /* Extra size reduction for very small text */
     }
     .bottom-bar .nav-link .bi {
       font-size: 1rem;
@@ -50,21 +50,21 @@
   object-fit: cover;
 }
 
-/* للشاشات الصغيرة */
+/* For small screens */
 @media (max-width: 480px) {
   .bottom-bar .nav-link img {
     width: 24px;
     height: 24px;
-    margin: 0; /* إزالة الـ margin لتفادي الانكسار */
+    margin: 0; /* Remove margin to avoid wrapping */
   }
   .bottom-bar .nav-link span {
-    font-size: 0.6rem; /* تصغير النص */
+    font-size: 0.6rem; /* Reduce text size */
   }
 }
 
 </style>
 
-<!-- المحتوى ... -->
+<!-- Content ... -->
 
 <!-- Bottom Bar -->
 <nav class="bottom-bar navbar fixed-bottom bg-body-tertiary border-top">
@@ -73,34 +73,34 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'dashboard' %}" data-path="/{{LANGUAGE_CODE}}/dashboard/overview">
           <i class="bi bi-house-door"></i>
-          <span>الرئيسية</span>
+          <span>Home</span>
         </a>
       </li>
       <li class="nav-item position-relative">
         <a class="nav-link" href="{% url 'my_devices' %}" data-path="/{{LANGUAGE_CODE}}/dashboard/devices">
           <i class="bi bi-cpu"></i>
-          <span>الأجهزة</span>
+          <span>Devices</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link position-relative" href="{% url 'transactions' %}" data-path="/{{LANGUAGE_CODE}}/dashboard/accounts/transactions/">
           <i class="bi bi-arrow-left-right"></i>
-          <span>سحب</span>
-          <!-- بادج تنبيهات -->
+          <span>Withdraw</span>
+          <!-- Notifications badge -->
           {% comment %} <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
             3
-            <span class="visually-hidden">تنبيهات غير مقروءة</span>
+            <span class="visually-hidden">Unread notifications</span>
           </span> {% endcomment %}
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link position-relative" href="{% url 'deposit' %}" data-path="/{{LANGUAGE_CODE}}/dashboard/accounts/deposit/">
           <i class="bi bi-wallet2"></i>
-          <span>أيداع</span>
-          {% comment %} <!-- بادج تنبيهات -->
+          <span>Deposit</span>
+          {% comment %} <!-- Notifications badge -->
           <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
             3
-            <span class="visually-hidden">تنبيهات غير مقروءة</span>
+            <span class="visually-hidden">Unread notifications</span>
           </span> {% endcomment %}
         </a>
       </li>
@@ -108,7 +108,7 @@
       <li class="nav-item position-relative">
         <a class="nav-link" href="https://t.me/miningsaves" target="_blank">
           <i class="bi bi-headset"></i>
-          <span>خدمة العملاء</span>
+          <span>Customer support</span>
         </a>
       </li>
 
@@ -130,7 +130,7 @@
 
 
 <script>
-  // تفعيل العنصر بحسب المسار الحالي
+  // Activate current item based on current path
   (function () {
     const path = location.pathname.replace(/\/+$/, '') || '/';
     document.querySelectorAll('.bottom-bar .nav-link').forEach(a => {

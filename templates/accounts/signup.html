@@ -4,25 +4,25 @@
 {% block sheri %}
 
 
- <!-- تسجيل حساب -->
+ <!-- Sign up -->
  <div class="px-3 my-5">
     <div class="container py-3 border rounded shadow-lg" style="max-width: 568px;">
         <form class="p-4 p-sm-5" method='post'>
             {% csrf_token %}
             <div class="text-center">
                 <img width="130" src="{% static 'img/softmsg-logo.webp' %}" alt="" class="mb-2">
-                <h3 class="mb-3 text-dark">إنشاء حساب جديد</h3>
+                <h3 class="mb-3 text-dark">Create a new account</h3>
             </div>
             <div class="row row-cols-1 row-cols-sm-2">
                 <div class="mb-3 col">
                     <label for="exampleFormControlInput1" class="form-label">
-                        الاسم الأول
+                        First name
                     </label>
                     {{user_form.first_name}}
                 </div>
                 <div class="mb-3 col">
                     <label for="exampleFormControlInput1" class="form-label">
-                        اسم العائلة
+                        Last name
                     </label>
                     {{user_form.last_name}}
                 </div>
@@ -31,7 +31,7 @@
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">
                     <i class="fa-solid fa-envelope"></i>
-                    اسم المستخدم
+                    Username
                 </label>
                 {{user_form.username}}
             </div>
@@ -39,7 +39,7 @@
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">
                     <i class="fa-solid fa-lock"></i>
-                    كلمة المرور
+                    Password
                 </label>
                 {{user_form.password}}
             </div>
@@ -47,23 +47,23 @@
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">
                     <i class="fa-solid fa-star"></i>
-                    كود الدعوة
+                    Referral code
                 </label>
                 <input type="text" class="form-control" name="invite_code" id="invite_code">
             </div>
 
             <button class="btn btn-dark mx-auto d-block mb-3">
                 <i class="fa-solid fa-user"></i>
-                إنشاء الحساب
+                Create account
             </button>
 
-            <!-- زر تسجيل الدخول -->
+            <!-- Login button -->
             <a href="{% url 'Login' %}" class="btn btn-outline-primary mx-auto d-block">
-                لديك حساب بالفعل؟ تسجيل الدخول
+                Already have an account? Login
             </a>
         </form>
     </div>
 </div>
- <!-- نهاية تسجيل حساب -->
+ <!-- End sign up -->
 
 {% endblock sheri %}

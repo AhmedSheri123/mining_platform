@@ -2,18 +2,18 @@
 {% block sheri %}
 <div class="container mt-4">
 
-    <h2 class="mb-4">💰 الإيداع</h2>
+    <h2 class="mb-4">💰 Deposit</h2>
 
-    <!-- بطاقة المحفظة -->
+    <!-- Wallet card -->
     <div class="card mb-4 shadow-sm">
         <div class="card-body text-center">
             
-            <h5 class="mb-2">عنوان محفظتك:</h5>
+            <h5 class="mb-2">Your wallet address:</h5>
             <p class="text-monospace fw-bold">{{ wallet.address }}</p>
 
             <p class="text-muted mb-3">
-                أرسل <strong>USDT TRC20</strong> إلى العنوان أعلاه.  
-                بعد التحويل، سيظهر الإيداع هنا عند التأكيد.
+                Send <strong>USDT TRC20</strong> to the address above.  
+                After transfer, the deposit will appear here once confirmed.
             </p>
 
             <!-- QR Code -->
@@ -25,26 +25,26 @@
             </div>
 
             <p class="text-muted">
-                امسح الـ QR لتحويل USDT TRC20 مباشرة إلى عنوانك.
+                Scan the QR code to send USDT TRC20 directly to your address.
             </p>
-            <a href="" class="btn btn-warning btn-lg mb-3">تحقق من الرصيد</a>
+            <a href="" class="btn btn-warning btn-lg mb-3">Check balance</a>
 
             <p class="text-muted">
-                بعد التحويل انتظر دقائق واضغط على زر "تحقق من الرصيد"
+                After transfer, wait a few minutes and click "Check balance"
             </p>
         </div>
     </div>
 
-    <!-- سجل الإيداعات -->
-    <h3 class="mb-3">📜 سجل الإيداعات</h3>
+    <!-- Deposit history -->
+    <h3 class="mb-3">📜 Deposit history</h3>
     <div class="table-responsive">
         <table class="table table-striped align-middle">
             <thead class="table-dark">
                 <tr>
-                    <th>المبلغ</th>
-                    <th>الحالة</th>
-                    <th>تاريخ الإنشاء</th>
-                    <th>تاريخ التأكيد</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Created at</th>
+                    <th>Confirmed at</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,11 +53,11 @@
                     <td>{{ dep.amount }} USDT</td>
                     <td>
                         {% if dep.status == "pending" %}
-                            <span class="badge bg-warning">قيد الانتظار</span>
+                            <span class="badge bg-warning">Pending</span>
                         {% elif dep.status == "confirmed" %}
-                            <span class="badge bg-success">تم التأكيد</span>
+                            <span class="badge bg-success">Confirmed</span>
                         {% else %}
-                            <span class="badge bg-danger">مرفوض</span>
+                            <span class="badge bg-danger">Rejected</span>
                         {% endif %}
                     </td>
                     <td>{{ dep.created_at|date:"Y-m-d H:i" }}</td>
@@ -72,7 +72,7 @@
                 {% empty %}
                 <tr>
                     <td colspan="4" class="text-center text-muted">
-                        لا يوجد إيداعات حتى الآن
+                        No deposits yet
                     </td>
                 </tr>
                 {% endfor %}

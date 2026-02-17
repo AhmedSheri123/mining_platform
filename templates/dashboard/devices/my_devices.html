@@ -2,22 +2,22 @@
 {% load i18n %}
 {% block sheri %}
 <div class="bg-primary p-3">
-    <a href="{% url 'devices' %}" class="btn btn-light">شراء جهاز</a>
+    <a href="{% url 'devices' %}" class="btn btn-light">Buy devices</a>
 </div>
 
 <div class="container p-4 ">
-    <h5>أجهزتي</h5>
+    <h5>My devices</h5>
   <div class="tabel-box">
     <table class="table">
       <thead>
         <tr>
         <th>#</th>
-        <th>{% trans "معرّف الجهاز" %}</th>
-        <th>{% trans "قوة الهاش" %}</th>
-        <th>{% trans "درجة الحرارة" %}</th>
-        <th>{% trans "الحالة" %}</th>
-        <th>{% trans "الأرباح" %}</th>
-        <th>{% trans "الإجراءات" %}</th>
+        <th>{% trans "Device ID" %}</th>
+        <th>{% trans "Hash power" %}</th>
+        <th>{% trans "Temperature" %}</th>
+        <th>{% trans "Status" %}</th>
+        <th>{% trans "Earnings" %}</th>
+        <th>{% trans "Actions" %}</th>
         </tr>
       </thead>
       <tbody id="devices-table-body">
@@ -29,17 +29,17 @@
      <td class="temperature">{{ device.temperature }} °C</td>
      <td class="status">
        {% if device.status == "running" %}
-         <span class="badge bg-success">يعمل</span>
+         <span class="badge bg-success">Running</span>
        {% elif device.status == "stopped" %}
-         <span class="badge bg-danger">متوقف</span>
+         <span class="badge bg-danger">Stopped</span>
        {% else %}
-         <span class="badge bg-warning">صيانة</span>
+         <span class="badge bg-warning">Maintenance</span>
        {% endif %}
      </td>
      <td class="earnings">{{ device.earnings }} USDT</td>
      <td>
-       <a href="{% url 'device_detail' device.id %}" class="btn btn-sm btn-primary">عرض</a>
-       <a class="btn btn-sm btn-danger" data-bs-toggle="modal" onclick="deleteItem('/usesss')" data-bs-target="#exampleModal">حذف</a>
+       <a href="{% url 'device_detail' device.id %}" class="btn btn-sm btn-primary">View</a>
+       <a class="btn btn-sm btn-danger" data-bs-toggle="modal" onclick="deleteItem('/usesss')" data-bs-target="#exampleModal">Delete</a>
      </td>
   </tr>
   {% endfor %}
@@ -55,12 +55,12 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content rounded-3 shadow">
       <div class="modal-body p-4 text-center">
-        <h5 class="mb-0">هل تريد حذف هذه الخدمة؟</h5>
-        <p class="mb-0">بعد الحذف لا يمكنك استعادتها مرة أخرى.</p>
+        <h5 class="mb-0">Do you want to delete this service?</h5>
+        <p class="mb-0">After deletion, you cannot restore it again.</p>
       </div>
       <div class="modal-footer flex-nowrap p-0">
-        <a type="button" id="yesDelete" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong>نعم، احذف</strong></a>
-        <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">لا، شكراً</button>
+        <a type="button" id="yesDelete" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong>Yes, delete</strong></a>
+        <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">No, thanks</button>
       </div>
     </div>
   </div>
@@ -83,13 +83,13 @@ function updateDeviceRow(row, data) {
 
     const statusEl = row.querySelector(".status span");
     if(data.status == "running") {
-        statusEl.textContent = "يعمل";
+        statusEl.textContent = "Running";
         statusEl.className = "badge bg-success";
     } else if(data.status == "stopped") {
-        statusEl.textContent = "متوقف";
+        statusEl.textContent = "Stopped";
         statusEl.className = "badge bg-danger";
     } else {
-        statusEl.textContent = "صيانة";
+        statusEl.textContent = "Maintenance";
         statusEl.className = "badge bg-warning";
     }
 }
@@ -104,12 +104,12 @@ function fetchDeviceUpdatesSequential() {
                 if(row){
                     updateDeviceRow(row, d);
                 }
-            }, index * 500); // 500ms بين كل جهاز
+            }, index * 500); // 500ms between each device
         });
     });
 }
 
-// تحديث كل 5 ثواني
+// Update every 5 seconds
 setInterval(fetchDeviceUpdatesSequential, 5000);
 </script>
 

@@ -4,71 +4,71 @@
 
 <div class="container p-4">
 
-    {% comment %} <!-- تحية سريعة -->
+    {% comment %} <!-- Quick greeting -->
     <div class="alert alert-warning" role="alert">
-        أهلاً {{ request.user.username }} 👋، لمحة عن استثماراتك
+        Hello {{ request.user.username }} 👋, an overview of your investments
     </div> {% endcomment %}
 
     <div class="card mb-4">
         <div class="card-body">
-            <h4 class="card-title">رصيدك الحالي</h4>
+            <h4 class="card-title">Your current balance</h4>
             <p class="card-text display-6">{{ balance|floatformat:2 }} USDT</p>
         </div>
     </div>
 
-    <!-- السحب الخارجي (USDT) -->
+    <!-- External withdrawal (USDT) -->
     <div class="card mb-4">
-        <div class="card-header">سحب / تحويل خارجي (USDT TRC20)</div>
+        <div class="card-header">Withdraw / external transfer (USDT TRC20)</div>
         <div class="card-body">
             <form method="post">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="withdraw">
                 <div class="mb-3">
-                    <label>المبلغ:</label>
+                    <label>Amount:</label>
                     <input type="number" step="0.000001" name="amount" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label>عنوان المحفظة:</label>
+                    <label>Wallet address:</label>
                     <input type="text" name="wallet_address" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-primary">تقديم الطلب</button>
+                <button type="submit" class="btn btn-primary">Submit request</button>
             </form>
         </div>
     </div>
 
     {% if request.user.is_superuser %}
-    <!-- التحويل الداخلي -->
+    <!-- Internal transfer -->
     <div class="card mb-4">
-        <div class="card-header">تحويل داخلي</div>
+        <div class="card-header">Internal transfer</div>
         <div class="card-body">
             <form method="post">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="transfer">
                 <div class="mb-3">
-                    <label>المستلم (اسم المستخدم):</label>
+                    <label>Recipient (username):</label>
                     <input type="text" name="recipient" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label>المبلغ:</label>
+                    <label>Amount:</label>
                     <input type="number" step="0.000001" name="amount" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-success">تحويل</button>
+                <button type="submit" class="btn btn-success">Transfer</button>
             </form>
         </div>
     </div>
 {% endif %}
-    <!-- سجل المعاملات -->
+    <!-- Transaction history -->
     <div class="card">
-        <div class="card-header">سجل المعاملات</div>
+        <div class="card-header">Transaction history</div>
         <div class="card-body table-responsive">
             <table class="table table-bordered table-striped">
                 <thead class="table-light">
                     <tr>
-                        <th>التاريخ</th>
-                        <th>نوع العملية</th>
-                        <th>المبلغ</th>
-                        <th>المستلم / المحفظة</th>
-                        <th>الحالة</th>
+                        <th>Date</th>
+                        <th>Transaction type</th>
+                        <th>Amount</th>
+                        <th>Recipient / wallet</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,7 +96,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5" class="text-center">لا توجد معاملات حتى الآن</td>
+                        <td colspan="5" class="text-center">No transactions yet</td>
                     </tr>
                     {% endfor %}
                 </tbody>

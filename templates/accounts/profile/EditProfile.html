@@ -6,9 +6,9 @@
 {% endblock links %}
 {% block sheri %}
 
-<!-- نموذج تعديل الملف الشخصي -->
+<!-- Edit profile form -->
 <div class="container p-4 ">
-    <h5>{% trans "تعديل الملف الشخصي" %}</h5>
+    <h5>{% trans "Edit profile" %}</h5>
 
     <form class="bg-body-tertiary p-4 rounded needs-validation" novalidate id="project_form" method="post">
         <div class="text-center">
@@ -28,9 +28,9 @@
             {% endif %}
         </div>
 
-        <!-- زر رفع الصورة -->
+        <!-- Upload image button -->
         <button type="button" class="btn btn-primary mt-2 mb-4" style="margin: auto;display: block;" data-bs-toggle="modal" data-bs-target="#cropImagePop">
-            {% trans "رفع صورة الملف الشخصي" %} 
+            {% trans "Upload profile image" %} 
         </button>
 
         {% csrf_token %}
@@ -38,41 +38,41 @@
             <div class="mb-3 col">
                 <label class="form-label">
                     <i class="bi bi-pen"></i>
-                    {% trans "الاسم الأول" %}
+                    {% trans "First name" %}
                 </label>
                 {{user_form.first_name}}
-                <div class="valid-feedback">{% trans "جيد!" %}</div>
-                <div class="invalid-feedback">{% trans "الرجاء إدخال الاسم الأول." %}</div>
+                <div class="valid-feedback">{% trans "Good!" %}</div>
+                <div class="invalid-feedback">{% trans "Please enter first name." %}</div>
             </div>
             <div class="mb-3 col">
                 <label class="form-label">
                     <i class="bi bi-pen"></i>
-                    {% trans "الاسم الأخير" %}
+                    {% trans "Last name" %}
                 </label>
                 {{user_form.last_name}}
-                <div class="valid-feedback">{% trans "جيد!" %}</div>
-                <div class="invalid-feedback">{% trans "الرجاء إدخال الاسم الأخير." %}</div>
+                <div class="valid-feedback">{% trans "Good!" %}</div>
+                <div class="invalid-feedback">{% trans "Please enter the last name." %}</div>
             </div>
             <div class="mb-3 col">
                 <label class="form-label">
                     <i class="bi bi-pen"></i>
-                    {% trans "البريد الإلكتروني" %}
+                    {% trans "Email" %}
                 </label>
                 {{user_form.email}}
-                <div class="valid-feedback">{% trans "جيد!" %}</div>
-                <div class="invalid-feedback">{% trans "الرجاء إدخال البريد الإلكتروني." %}</div>
+                <div class="valid-feedback">{% trans "Good!" %}</div>
+                <div class="invalid-feedback">{% trans "Please enter email." %}</div>
             </div>
  
         </div>
 
         <button type="submit" class="btn btn-primary">
-            {% trans "حفظ" %}
+            {% trans "Save" %}
             <i class="bi bi-floppy"></i>
         </button>
     </form>
 </div>
 
-<!-- Modal تعديل الصورة -->
+<!-- Image edit modal -->
 <div class="modal fade" id="cropImagePop" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content rounded-4 shadow">
@@ -84,7 +84,7 @@
                         </div>
                         <div class="pull-left">
                             <div class="upload-msg" onclick="document.querySelector('#upload').click()">
-                                {% trans "معاينة" %}
+                                {% trans "Preview" %}
                             </div>
                             <div class="upload-demo-wrap">
                                 <div id="upload-demo"></div>
@@ -92,8 +92,8 @@
                         </div>
                     </div>
                 </div>
-                <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary upload-result" type="submit">{% trans "تغيير" %}</button>
-                <button type="button" class="w-100 mb-2 btn btn-lg rounded-3 btn-dark" data-bs-dismiss="modal">{% trans "إغلاق" %}</button>
+                <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary upload-result" type="submit">{% trans "Change" %}</button>
+                <button type="button" class="w-100 mb-2 btn btn-lg rounded-3 btn-dark" data-bs-dismiss="modal">{% trans "Close" %}</button>
             </div>
         </div>
     </div>
@@ -123,7 +123,7 @@ $(document).ready(function(){
             }
             reader.readAsDataURL(input.files[0]);
         } else {
-            console.log("المتصفح لا يدعم FileReader API");
+            console.log("Browser does not support FileReader API");
         }
     }
 

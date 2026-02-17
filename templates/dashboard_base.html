@@ -38,7 +38,7 @@
     <script>
       $(document).ready(function() {
         {% for message in messages %}
-        showToast(randomGen(), 'نظام', '{{message|safe}}', '')
+        showToast(randomGen(), 'System', '{{message|safe}}', '')
         {% endfor %}
       })
 

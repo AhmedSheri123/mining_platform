@@ -6,42 +6,42 @@
     
     {% if '/resources/' in request.path %}
     <div class="bd-navbar-toggle">
-      <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar" aria-controls="bdSidebar" aria-label="تبديل القائمة">
+      <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar" aria-controls="bdSidebar" aria-label="Toggle menu">
         <span class="navbar-toggler-icon"></span>
-        <span class="d-none fs-6 pe-1">تصفح</span>
+        <span class="d-none fs-6 pe-1">Browse</span>
       </button>
     </div>
     {% endif %}
 
-    <!-- الشعار -->
+    <!-- Logo -->
     <a class="navbar-brand glass-eff p-2 ms-2" href="{% url 'index' %}">
       <img width="75" src="{% static 'img/softmsg-logo.png' %}" alt="SOFTmsg Logo">
     </a>
 
-    <!-- زر القائمة للجوال -->
-    <button class="navbar-toggler glass-eff" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="تبديل القائمة">
+    <!-- Mobile menu button -->
+    <button class="navbar-toggler glass-eff" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle menu">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- الروابط -->
+    <!-- Links -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mx-auto p-2 my-3 my-lg-0 ps-4 glass-eff ">
         <li class="nav-item">
-          <a class="nav-link {% if 'index' == request.resolver_match.view_name %}active{% endif %}" href="{% url 'index' %}">الرئيسية</a>
+          <a class="nav-link {% if 'index' == request.resolver_match.view_name %}active{% endif %}" href="{% url 'index' %}">Home</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {% if 'FAQ' == request.resolver_match.view_name %}active{% endif %}" href="#faq">الأسئلة الشائعة</a>
+          <a class="nav-link {% if 'FAQ' == request.resolver_match.view_name %}active{% endif %}" href="#faq">FAQ</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#contact-us">اتصل بنا</a>
+          <a class="nav-link" href="#contact-us">Contact us</a>
         </li>
       </ul>
 
-      <!-- زر اللغة وزر ابدأ -->
+      <!-- Language and start buttons -->
       <div class="d-flex justify-content-center">
         
-        <!-- اختيار اللغة -->
+        <!-- Language selection -->
         <div class="dropdown">
           <button class="btn btn-light dropdown-toggle rounded-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-globe"></i>
@@ -53,27 +53,27 @@
                 <option value="en">English</option>
                 <option value="ro">Română</option>
                 <option value="de">Deutsch</option>
-                <option value="ar" selected>العربية</option>
+                <option value="ar" selected>Arabic</option>
               </select>
             </form>
           </ul>
         </div> 
 
-<!-- زر ابدأ -->
+<!-- Start button -->
 {% if user.is_authenticated %}
 {% if user.is_superuser %}
     <a class="btn btn-primary me-2 rounded-4 ms-2" href="{% url 'management' %}">
-        لوحة التحكم المدير
+        Admin dashboard
         <i class="fa-solid fa-gauge-high"></i>
     </a>
 {% endif %}
     <a class="btn btn-primary me-2 rounded-4 ms-2" href="{% url 'dashboard' %}">
-        لوحة التحكم
+        Dashboard
         <i class="fa-solid fa-gauge-high"></i>
     </a>
 {% else %}
     <a class="btn btn-primary me-2 rounded-4 ms-2" href="{% url 'Login' %}">
-        تسجيل الدخول
+        Login
         <i class="fa-solid fa-right-to-bracket"></i>
     </a>
 {% endif %}

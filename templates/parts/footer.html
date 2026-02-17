@@ -5,36 +5,36 @@
   <div class="container">
     <div class="row row-cols-1 row-cols-md-2 g-4">
       
-      <!-- روابط -->
+      <!-- Links -->
       <div class="col">
         <ul class="nav flex-column">
           <li class="nav-item mb-2">
-            <a href="{% url 'index' %}" class="nav-link p-0 text-body-secondary">الرئيسية</a>
+            <a href="{% url 'index' %}" class="nav-link p-0 text-body-secondary">Home</a>
           </li>
           <li class="nav-item mb-2">
-            <a href="#faq" class="nav-link p-0 text-body-secondary">الأسئلة الشائعة</a>
+            <a href="#faq" class="nav-link p-0 text-body-secondary">FAQ</a>
           </li>
           <li class="nav-item mb-2">
-            <a href="/{{LANGUAGE_CODE}}/#contact-us" class="nav-link p-0 text-body-secondary">اتصل بنا</a>
+            <a href="/{{LANGUAGE_CODE}}/#contact-us" class="nav-link p-0 text-body-secondary">Contact us</a>
           </li>
           <li class="nav-item mb-2">
-            <a href="{% url 'PrivacyPolicy' %}" class="nav-link p-0 text-body-secondary">سياسة الخصوصية</a>
+            <a href="{% url 'PrivacyPolicy' %}" class="nav-link p-0 text-body-secondary">Privacy Policy</a>
           </li>
           <li class="nav-item mb-2">
-            <a href="{% url 'Signup' %}" class="nav-link p-0 text-body-secondary">ابدأ بالتعدين</a>
+            <a href="{% url 'Signup' %}" class="nav-link p-0 text-body-secondary">Start mining</a>
           </li>
         </ul>
       </div>
 
-      <!-- الاشتراك -->
+      <!-- Subscription -->
       <div class="col">
         <form method="get" action="{% url 'SubscribeToUs' %}">
-          <h5 class="fw-bold">اشترك في نشرتنا البريدية</h5>
-          <p class="text-muted">ملخص شهري لأحدث الأخبار والتحديثات منّا.</p>
+          <h5 class="fw-bold">Subscribe to our newsletter</h5>
+          <p class="text-muted">A monthly summary of our latest news and updates.</p>
           <div class="d-flex flex-column flex-sm-row gap-2">
             <input id="newsletter1" type="email" class="form-control" name="email" 
-                   placeholder="البريد الإلكتروني" required>
-            <button class="btn btn-success" type="submit">اشتراك</button>
+                   placeholder="Email" required>
+            <button class="btn btn-success" type="submit">Subscribe</button>
           </div>
         </form>
       </div>
@@ -42,16 +42,16 @@
 
     <hr class="my-4">
 
-    <!-- شعار + حقوق -->
+    <!-- Logo + rights -->
     <div class="d-flex flex-wrap justify-content-between align-items-center">
       <div class="d-flex align-items-center mb-3 mb-md-0">
         <a href="/" class="me-2 text-body-secondary text-decoration-none">
           <img width="100" src="{% static 'img/softmsg-logo.png' %}" alt="SOFTmsg Logo">
         </a>
-        <span class="text-body-secondary">© 2026 USEminer. جميع الحقوق محفوظة.</span>
+        <span class="text-body-secondary">© 2026 USEminer. All rights reserved.</span>
       </div>
 
-      {% comment %} <!-- السوشيال ميديا -->
+      {% comment %} <!-- Social media -->
       <ul class="nav list-unstyled d-flex fs-4">
         <li class="ms-3">
           <a class="text-body-secondary" href="https://www.facebook.com/share/1CjTiEF9cv/">
